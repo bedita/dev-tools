@@ -1,4 +1,4 @@
-# BEdita 4 Debug Kit plugin
+# BEdita 4 Debug Kit plugin [![Build Status](https://travis-ci.org/bedita/debug_kit.svg?branch=4-develop)](https://travis-ci.org/bedita/debug_kit)
 
 Plugin to help with development in [BEdita 4](http://www.bedita.com).
 This plugin adds some useful tabs to CakePHP Debug Kit toolbar.

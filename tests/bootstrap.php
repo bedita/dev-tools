@@ -36,8 +36,6 @@ unset($findRoot);
 chdir($root);
 require_once 'vendor/cakephp/cakephp/src/basics.php';
 require_once 'vendor/autoload.php';
-define('ROOT', $root . DS . 'tests' . DS . 'test_app' . DS);
-define('APP', ROOT . 'App' . DS);
 define('TMP', sys_get_temp_dir() . DS);
 if (!getenv('db_dsn')) {
     putenv('db_dsn=sqlite:///:memory:');
@@ -46,5 +44,4 @@ ConnectionManager::config('test', ['url' => getenv('db_dsn')]);
 Configure::write('debug', true);
 Plugin::load('BEdita/DebugKit', [
     'path' => dirname(dirname(__FILE__)) . DS,
-    'autoload' => true,
 ]);

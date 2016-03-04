@@ -1,0 +1,44 @@
+{
+    "name": "bedita/debug_kit",
+    "type": "cakephp-plugin",
+    "description": "A plugin to add custom DebugKit panel for development with BEdita.",
+    "keywords": ["cakephp", "cake3", "plugin", "bedita", "debug_kit", "travis", "scrutinizer"],
+    "license": "LGPL",
+    "support": {
+        "source": "https://github.com/bedita/debug_kit",
+        "issues": "https://github.com/bedita/debug_kit/issues"
+    },
+    "authors": [
+        {
+            "name": "Chia Lab s.r.l.",
+            "email": "dev@chialab.it",
+            "homepage": "http://www.chialab.it"
+        },
+        {
+            "name": "ChannelWeb s.r.l.",
+            "email": "info@channelweb.it",
+            "homepage": "http://www.channelweb.it"
+        }
+    ],
+    "require": {
+        "cakephp/debug_kit": "~3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "cakephp/cakephp-codesniffer": "master-dev",
+        "phpmd/phpmd": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "BEdita\\DebugKit\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BEdita\\DebugKit\\Test\\": "tests",
+            "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

@@ -11,7 +11,7 @@
  * See LICENSE.LGPL or <http://gnu.org/licenses/lgpl-3.0.html> for more details.
  */
 
-namespace BEdita\DebugKit\Panel;
+namespace BEdita\DevTools\Panel;
 
 use Cake\Core\Configure;
 use DebugKit\DebugPanel;
@@ -27,7 +27,7 @@ class ConfigurationPanel extends DebugPanel
      *
      * @var string
      */
-    public $plugin = 'BEdita/DebugKit';
+    public $plugin = 'BEdita/DevTools';
 
     /**
      * Collect configuration data when panel is initialized.

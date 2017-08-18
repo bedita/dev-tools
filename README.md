@@ -1,7 +1,8 @@
-# BEdita 4 Debug Kit plugin [![Build Status](https://travis-ci.org/bedita/debug_kit.svg?branch=4-develop)](https://travis-ci.org/bedita/debug_kit)
+# BEdita 4 Developer Tools plugin [![Build Status](https://travis-ci.org/bedita/dev-tools.svg)](https://travis-ci.org/bedita/dev-tools)
 
 Plugin to help with development in [BEdita 4](http://www.bedita.com).
-This plugin adds some useful tabs to CakePHP Debug Kit toolbar.
+This plugin adds some useful tabs to CakePHP Debug Kit toolbar, as well as a user-friendly
+HTML rendering of API responses.
 
 ## Installation
 
@@ -10,5 +11,5 @@ You can install this plugin into your CakePHP application using [Composer](http:
 The recommended way to install composer packages is:
 
 ```bash
-composer require bedita/debug_kit
+composer require --dev bedita/dev-tools
 ```

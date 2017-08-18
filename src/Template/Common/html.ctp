@@ -3,9 +3,9 @@
 /* @var \Psr\Http\Message\ResponseInterface $response */
 $this->assign('title', __('BEdita 4 - API Response'));
 
-$this->Html->css('BEdita/DebugKit.jquery.jsonview', ['block' => true]);
-$this->Html->script('BEdita/DebugKit.jquery.min', ['block' => true]);
-$this->Html->script('BEdita/DebugKit.jquery.jsonview', ['block' => true]);
+$this->Html->css('BEdita/DevTools.jquery.jsonview', ['block' => true]);
+$this->Html->script('BEdita/DevTools.jquery.min', ['block' => true]);
+$this->Html->script('BEdita/DevTools.jquery.jsonview', ['block' => true]);
 
 $colors = [
     1 => '#08C', // Informational

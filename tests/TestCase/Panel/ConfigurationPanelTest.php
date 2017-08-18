@@ -11,9 +11,9 @@
  * See LICENSE.LGPL or <http://gnu.org/licenses/lgpl-3.0.html> for more details.
  */
 
-namespace BEdita\DebugKit\Test\TestCase\Panel;
+namespace BEdita\DevTools\Test\TestCase\Panel;
 
-use BEdita\DebugKit\Panel\ConfigurationPanel;
+use BEdita\DevTools\Panel\ConfigurationPanel;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 

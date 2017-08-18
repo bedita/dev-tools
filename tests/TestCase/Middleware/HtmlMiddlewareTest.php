@@ -11,15 +11,15 @@
  * See LICENSE.LGPL or <http://gnu.org/licenses/lgpl-3.0.html> for more details.
  */
 
-namespace BEdita\DebugKit\Test\TestCase\Middleware;
+namespace BEdita\DevTools\Test\TestCase\Middleware;
 
-use BEdita\DebugKit\Middleware\HtmlMiddleware;
+use BEdita\DevTools\Middleware\HtmlMiddleware;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 
 /**
- * @covers \BEdita\DebugKit\Middleware\HtmlMiddleware
+ * @covers \BEdita\DevTools\Middleware\HtmlMiddleware
  */
 class HtmlMiddlewareTest extends TestCase
 {

@@ -11,7 +11,7 @@
  * See LICENSE.LGPL or <http://gnu.org/licenses/lgpl-3.0.html> for more details.
  */
 
-namespace BEdita\DebugKit\Middleware;
+namespace BEdita\DevTools\Middleware;
 
 use Cake\Http\ServerRequest;
 use Cake\View\ViewVarsTrait;
@@ -56,7 +56,7 @@ class HtmlMiddleware
 
         // Prepare HTML rendering.
         $this->viewBuilder()
-            ->setPlugin('BEdita/DebugKit')
+            ->setPlugin('BEdita/DevTools')
             ->setLayout('html')
             ->setTemplatePath('Common')
             ->setTemplate('html');

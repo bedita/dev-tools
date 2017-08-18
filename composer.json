@@ -1,12 +1,12 @@
 {
-    "name": "bedita/debug_kit",
+    "name": "bedita/dev-tools",
     "type": "cakephp-plugin",
-    "description": "A plugin to add custom DebugKit panel for development with BEdita.",
+    "description": "A plugin to give some useful tools to BEdita developers.",
     "keywords": ["cakephp", "cake3", "plugin", "bedita", "debug_kit", "travis", "scrutinizer"],
     "license": "LGPL",
     "support": {
-        "source": "https://github.com/bedita/debug_kit",
-        "issues": "https://github.com/bedita/debug_kit/issues"
+        "source": "https://github.com/bedita/dev-tools",
+        "issues": "https://github.com/bedita/dev-tools/issues"
     },
     "authors": [
         {
@@ -30,15 +30,24 @@
     },
     "autoload": {
         "psr-4": {
-            "BEdita\\DebugKit\\": "src"
+            "BEdita\\DevTools\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "BEdita\\DebugKit\\Test\\": "tests",
+            "BEdita\\DevTools\\Test\\": "tests",
             "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+        "check": [
+            "@test",
+            "@cs-check"
+        ],
+        "cs-check": "phpcs --colors -p --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./tests",
+        "cs-fix": "phpcbf --colors --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./tests",
+        "test": "phpunit --colors=always"
+    }
 }

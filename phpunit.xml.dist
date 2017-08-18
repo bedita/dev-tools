@@ -25,7 +25,7 @@
 
     <!-- Add any additional test suites you want to run here -->
     <testsuites>
-        <testsuite name="BEdita 4 Debug Kit Test Suite">
+        <testsuite name="BEdita 4 Dev Tools Test Suite">
             <directory>./tests/TestCase</directory>
         </testsuite>
     </testsuites>

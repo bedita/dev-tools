@@ -76,4 +76,4 @@ ConnectionManager::setConfig('test', [
     'timezone' => 'UTC',
 ]);
 
-Plugin::load('BEdita/DebugKit', ['path' => ROOT, 'bootstrap' => true]);
+Plugin::load('BEdita/DevTools', ['path' => ROOT, 'bootstrap' => true]);

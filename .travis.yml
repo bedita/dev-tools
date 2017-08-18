@@ -41,7 +41,7 @@ jobs:
         - composer install --prefer-dist --no-interaction
         - composer require --dev phpstan/phpstan
       before_script: skip
-      script: vendor/bin/phpstan analyse --no-progress src plugins/BEdita/API/src plugins/BEdita/Core/src
+      script: vendor/bin/phpstan analyse --no-progress src
       after_success: ~
 
   allow_failures:

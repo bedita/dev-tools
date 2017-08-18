@@ -47,6 +47,24 @@ date_default_timezone_set('UTC');
 mb_internal_encoding('UTF-8');
 
 Configure::write('debug', true);
+Configure::write('App', [
+    'namespace' => 'App',
+    'encoding' => 'UTF-8',
+    'base' => false,
+    'baseUrl' => false,
+    'dir' => 'src',
+    'webroot' => 'webroot',
+    'www_root' => APP . 'webroot',
+    'fullBaseUrl' => 'http://api.example.org',
+    'imageBaseUrl' => 'img/',
+    'jsBaseUrl' => 'js/',
+    'cssBaseUrl' => 'css/',
+    'paths' => [
+        'plugins' => [APP . 'Plugin' . DS],
+        'templates' => [APP . 'Template' . DS],
+    ],
+]);
+
 
 Cache::setConfig([
     '_cake_core_' => [

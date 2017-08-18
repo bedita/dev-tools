@@ -13,6 +13,7 @@
 
 use BEdita\DevTools\Middleware\HtmlMiddleware;
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Http\MiddlewareQueue;
@@ -24,6 +25,10 @@ use Cake\Http\ServerRequest;
 $panels = ['BEdita/DevTools.Configuration'];
 $panels = array_merge(Configure::read('DebugKit.panels') ?: [], $panels);
 Configure::write('DebugKit.panels', $panels);
+
+if (!Plugin::loaded('DebugKit')) {
+    Plugin::load('DebugKit', ['bootstrap' => true, 'routes' => true]);
+}
 
 /**
  * Place HTML rendering middleware on top of middleware queue.

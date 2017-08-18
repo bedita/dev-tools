@@ -16,6 +16,7 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Http\MiddlewareQueue;
+use Cake\Http\ServerRequest;
 
 /**
  * Configure DebugKit panels.
@@ -27,6 +28,7 @@ Configure::write('DebugKit.panels', $panels);
 /**
  * Place HTML rendering middleware on top of middleware queue.
  */
+ServerRequest::addDetector('html', ['accept' => ['text/html', 'application/xhtml+xml', 'application/xhtml', 'text/xhtml']]);
 EventManager::instance()->on('Server.buildMiddleware', function (Event $event, MiddlewareQueue $middlewareQueue) {
     $middlewareQueue->insertAt(0, new HtmlMiddleware());
 });

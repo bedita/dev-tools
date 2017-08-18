@@ -19,7 +19,7 @@ use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 
 /**
- * @covers \BEdita\API\Middleware\HtmlMiddleware
+ * @covers \BEdita\DebugKit\Middleware\HtmlMiddleware
  */
 class HtmlMiddlewareTest extends TestCase
 {

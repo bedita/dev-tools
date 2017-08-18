@@ -56,7 +56,7 @@ class HtmlMiddleware
 
         // Prepare HTML rendering.
         $this->viewBuilder()
-            ->setPlugin('BEdita/API')
+            ->setPlugin('BEdita/DebugKit')
             ->setLayout('html')
             ->setTemplatePath('Common')
             ->setTemplate('html');

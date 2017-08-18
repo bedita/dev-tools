@@ -65,7 +65,6 @@ Configure::write('App', [
     ],
 ]);
 
-
 Cache::setConfig([
     '_cake_core_' => [
         'engine' => 'File',

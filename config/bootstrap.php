@@ -18,6 +18,7 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Http\MiddlewareQueue;
 use Cake\Http\ServerRequest;
+use DebugKit\Middleware\DebugKitMiddleware;
 
 /**
  * Configure DebugKit panels.
@@ -35,5 +36,5 @@ if (!Plugin::loaded('DebugKit')) {
  */
 ServerRequest::addDetector('html', ['accept' => ['text/html', 'application/xhtml+xml', 'application/xhtml', 'text/xhtml']]);
 EventManager::instance()->on('Server.buildMiddleware', function (Event $event, MiddlewareQueue $middlewareQueue) {
-    $middlewareQueue->insertAt(0, new HtmlMiddleware());
+    $middlewareQueue->insertAfter(DebugKitMiddleware::class, new HtmlMiddleware());
 });

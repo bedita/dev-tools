@@ -21,7 +21,7 @@
         }
     ],
     "require": {
-        "cakephp/debug_kit": "~3"
+        "cakephp/debug_kit": "~3.2 !=3.5.1"
     },
     "require-dev": {
         "phpunit/phpunit": "*",

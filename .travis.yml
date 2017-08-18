@@ -1,44 +1,64 @@
 language: php
 
+dist: trusty
+sudo: false
+
 php:
-  - 5.5
   - 5.6
   - 7.0
+  - 7.1
   - hhvm
-
-sudo: false
 
 cache:
   directories:
     - vendor
     - $HOME/.composer/cache
 
-env:
-  global:
-    - RUN_TESTS=1
-
 matrix:
   fast_finish: true
 
   include:
+    - php: 5.6
+      env: "PREFER_LOWEST=1"
+      install:
+        - composer install --prefer-dist --no-interaction
+        - composer update --prefer-dist --prefer-lowest --no-interaction
+        # Ensure PHPUnit is installed from source (i.e.: Git repository) otherwise a wrong version is being detected. :|
+        - rm -rf vendor/phpunit/phpunit vendor/bin/phpunit && COMPOSER_CACHE_DIR=/dev/null composer update --prefer-source --prefer-lowest --no-interaction
+
     - php: 7.0
-      env: RUN_CS=1 RUN_TESTS=0
+      env: "RUN=phpcs"
+      before_script: skip
+      script: |
+        vendor/bin/phpcs -n -p --extensions=php \
+          --standard=vendor/cakephp/cakephp-codesniffer/CakePHP \
+          ./config ./src ./tests
+      after_success: ~
+
+    - php: 7.1
+      env: "RUN=phpstan"
+      install:
+        - composer install --prefer-dist --no-interaction
+        - composer require --dev phpstan/phpstan
+      before_script: skip
+      script: vendor/bin/phpstan analyse --no-progress src plugins/BEdita/API/src plugins/BEdita/Core/src
+      after_success: ~
 
   allow_failures:
-    - php: hhvm
+    - env: "RUN=phpstan"
 
-before_script:
-  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
+before_install:
+  # Use GitHub OAuth token with Composer to increase API limits.
+  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi
+
+install:
+  # Install Composer dependencies.
   - composer install --prefer-dist --no-interaction
-
   - if [ "$TRAVIS_PHP_VERSION" = 'hhvm' ]; then composer require lorenzo/multiple-iterator=~1.0; fi
 
-script:
-  - if [ "$RUN_TESTS" = '1' ]; then vendor/bin/phpunit --coverage-clover=clover.xml; fi
-  - if [ "$RUN_CS" = '1' ]; then vendor/bin/phpcs -n -p --extensions=php --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./tests; fi
+script: vendor/bin/phpunit --coverage-clover=clover.xml # Run PHPUnit.
 
-after_success:
-  - if [ "$RUN_TESTS" = '1' ]; then bash <(curl -s https://codecov.io/bash); fi
+after_success: bash <(curl -s https://codecov.io/bash) # Upload test coverage reports to CodeCov.
 
 notifications:
   email: false

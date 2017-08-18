@@ -14,7 +14,7 @@ cache:
     - vendor
     - $HOME/.composer/cache
 
-matrix:
+jobs:
   fast_finish: true
 
   include:

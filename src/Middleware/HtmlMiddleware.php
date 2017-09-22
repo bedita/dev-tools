@@ -38,7 +38,8 @@ class HtmlMiddleware
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
-        if (!($request instanceof ServerRequest) || !$request->is('html')) {
+        $paths = explode('/', $request->url);
+        if (!($request instanceof ServerRequest) || !$request->is('html') || $paths[0] === 'tools') {
             // Not an HTML request, or unable to detect easily.
             return $next($request, $response);
         }

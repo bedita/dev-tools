@@ -21,8 +21,9 @@
         }
     ],
     "require": {
-        "cakephp/cakephp": ">=3.4.4, <4.0",
-        "cakephp/debug_kit": "~3.2 !=3.5.1"
+        "bedita/core": "dev-4-cactus",
+        "bedita/api": "dev-4-cactus",
+        "cakephp/debug_kit": "~3.10"
     },
     "require-dev": {
         "phpunit/phpunit": "*",

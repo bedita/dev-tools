@@ -13,16 +13,24 @@
 namespace BEdita\DevTools\Controller;
 
 use BEdita\API\Controller\AppController as BaseController;
+use BEdita\DevTools\Spec\OpenAPI;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Event\Event;
 use Cake\Routing\Router;
+use Zend\Diactoros\Stream;
 
 /**
  * Controller endpoint for `/tools` endpoint
  */
 class ToolsController extends BaseController
 {
+    /**
+     * YAML content type.
+     *
+     * @var string
+     */
+    const YAML_CONTENT_TYPE = 'application/x-yaml';
 
     /**
      * {@inheritDoc}
@@ -34,41 +42,50 @@ class ToolsController extends BaseController
         parent::initialize();
 
         $this->Auth->getAuthorize('BEdita/API.Endpoint')->setConfig('defaultAuthorized', true);
+
+        if ($this->components()->has('JsonApi')) {
+            $this->components()->unload('JsonApi');
+        }
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @codeCoverageIgnore
      */
     public function beforeFilter(Event $event)
     {
     }
 
     /**
-     * Give suggestions for localities.
+     * Return OpenAPI spec in JSON or YAML
      *
-     * @return void
+     * @return \Cake\Http\Response
      */
     public function openApi()
     {
         $this->request->allowMethod('get');
-        $this->prepareSpec();
-    }
 
-    /**
-     * Prepare OpenAPI v3 Yaml specification file content.
-     *
-     * @return void
-     */
-    protected function prepareSpec()
-    {
-        $this->set('project', Configure::read('Project.name'));
-        $this->set('url', Router::fullBaseUrl());
+        if ($this->request->is('json')) {
+            $this->viewBuilder()->setClassName('Json');
+            $this->set(OpenAPI::generate());
+            $this->set('_serialize', true);
 
+            return $this->render();
+        }
+
+        $this->set('yaml', OpenAPI::generateYaml());
         $this->viewBuilder()
             ->setPlugin('BEdita/DevTools')
             ->setLayout('open_api')
             ->setTemplatePath('OpenAPI')
-            ->setTemplate('yaml');
-            //->setClassName('View');
+            ->setTemplate('yaml')
+            ->setClassName('View');
+
+        if ($this->request->is('html')) {
+            return $this->render();
+        }
+
+        return $this->render()->withType(static::YAML_CONTENT_TYPE);
     }
 }

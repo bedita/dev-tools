@@ -53,6 +53,7 @@ class OpenAPITest extends TestCase
      * @covers ::generate()
      * @covers ::dynamicPaths()
      * @covers ::dynamicSchemas()
+     * @covers ::loadConfigurations()
      * @covers ::availableTypes()
      * @covers ::retrieveSchema()
      */

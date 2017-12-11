@@ -15,6 +15,9 @@ namespace BEdita\DevTools\Spec;
 
 use BEdita\Core\Model\Schema\JsonSchema;
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
+use Cake\Filesystem\Folder;
+use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
 use Symfony\Component\Yaml\Yaml;
@@ -34,13 +37,23 @@ class OpenAPI
     protected static $types = [];
 
     /**
+     * Resources described by the spec
+     *
+     * @var array
+     */
+    const RESOURCES = [
+        'roles',
+        'streams',
+    ];
+
+    /**
      * Generate OpenAPI v3 project as PHP array.
      *
      * @return array
      */
     public static function generate()
     {
-        Configure::load('BEdita/DevTools.open_api');
+        static::loadConfigurations();
         $spec = Configure::read('OpenAPI');
 
         $spec['info']['title'] = Configure::read('Project.name') . ' API';
@@ -52,6 +65,22 @@ class OpenAPI
         $spec['components']['schemas'] = array_merge($spec['components']['schemas'], static::dynamicSchemas());
 
         return $spec;
+    }
+
+    /**
+     * Load OpenAPI configuration files.
+     *
+     * @return void
+     */
+    protected static function loadConfigurations()
+    {
+        // load configuration files
+        $path = Plugin::path('BEdita/DevTools') . 'config/OpenAPI';
+        $dir = new Folder($path);
+        $files = $dir->find('.*\.php', true);
+        foreach ($files as $file) {
+            Configure::load('BEdita/DevTools.OpenAPI/' . substr($file, 0, strlen($file) - 4));
+        }
     }
 
     /**
@@ -82,6 +111,12 @@ class OpenAPI
             foreach ($paths as $url => $data) {
                 $path = str_replace('{$resource}', $t, $url);
                 $data = json_decode(str_replace('{$resource}', $t, json_encode($data)), true);
+                // replace 'tags' -> `objects` with `resources`
+                if (in_array($t, static::RESOURCES)) {
+                    array_walk($data, function (&$values) {
+                        $values['tags'] = ['resources'];
+                    });
+                }
                 $res[$path] = $data;
             }
         }
@@ -97,7 +132,8 @@ class OpenAPI
     protected static function availableTypes()
     {
         if (empty(static::$types)) {
-            static::$types = ['roles', 'objects', 'users'];
+            $objectTypes = TableRegistry::get('ObjectTypes')->find('list', ['valueField' => 'name'])->toArray();
+            static::$types = array_merge($objectTypes, static::RESOURCES);
         }
 
         return static::$types;
@@ -113,12 +149,14 @@ class OpenAPI
         $res = [];
         $schemas = Configure::read('OATemplates.components.schemas');
         $types = static::availableTypes();
-        foreach ($types as $t) {
-            $template = json_decode(str_replace('{$resource}', $t, json_encode($schemas['{$resource}'])), true);
-            $res[$t] = $template;
-            $schema = static::retrieveSchema($t);
+        foreach ($types as $type) {
+            foreach ($schemas as $name => $data) {
+                $schemaName = str_replace('{$resource}', $type, $name);
+                $res[$schemaName] = json_decode(str_replace('{$resource}', $type, json_encode($data)), true);
+            }
+            $schema = static::retrieveSchema($type);
             foreach (['attributes', 'meta', 'relationships'] as $item) {
-                $res[sprintf('%s_%s', $t, $item)] = $schema[$item];
+                $res[sprintf('%s_%s', $type, $item)] = $schema[$item];
             }
         }
 

@@ -32,6 +32,7 @@ class ToolsControllerTest extends IntegrationTestCase
         'plugin.BEdita/Core.locations',
         'plugin.BEdita/Core.property_types',
         'plugin.BEdita/Core.properties',
+        'plugin.BEdita/Core.streams',
     ];
 
     /**

@@ -9,7 +9,7 @@ Router::plugin(
         'path' => '/tools',
     ],
     function (RouteBuilder $routes) {
-        // OpenAPI 3 spec in YAML format.
+        // OpenAPI 3 spec in YAML or JSON format.
         $routes->connect(
             '/open-api',
             ['controller' => 'Tools', 'action' => 'openApi', 'method' => 'GET']

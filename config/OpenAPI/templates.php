@@ -1,7 +1,14 @@
 <?php
 return [
     /**
-     * OpenAPI spec template
+     * OpenAPI templates
+     *
+     * Each item in `paths` and `components` contains a `{$resource}` placeholder
+     * that will be replaced with actual resource and object types names
+     *
+     * Note:
+     *  - `{$resource}_attributes`, `{$resource}_meta` and `{$resource}_relationships` will be dynamically created
+     *
      */
     'OATemplates' => [
         'paths' => [

@@ -1,7 +1,7 @@
 <?php
 return [
     /**
-     * OpenAPI `auth/` spec
+     * OpenAPI `auth/` specification
      */
     'OpenAPI' => [
         'paths' => [
@@ -89,6 +89,7 @@ return [
 
         // components used only in `auth/`
         'components' => [
+
             'schemas' => [
 
                 'auth_login' => [

@@ -25,6 +25,9 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * OpenAPI generation utility methods.
  *
+ * Spec generation is driven by configuration files in `config/OpenAPI`.
+ * Have look at `config/OpenAPI/_open_api.php` for a brief description.
+ *
  * @since 4.0.0
  */
 class OpenAPI

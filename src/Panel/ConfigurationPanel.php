@@ -33,6 +33,7 @@ class ConfigurationPanel extends DebugPanel
      * Collect configuration data when panel is initialized.
      *
      * @return void
+     * @codeCoverageIgnore
      */
     public function initialize()
     {

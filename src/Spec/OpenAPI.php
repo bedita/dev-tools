@@ -129,7 +129,7 @@ class OpenAPI
      *
      * @return array OpenAPI dynamic paths
      */
-    protected static function availableTypes()
+    public static function availableTypes()
     {
         if (empty(static::$types)) {
             $objectTypes = TableRegistry::get('ObjectTypes')->find('list', ['valueField' => 'name'])->toArray();
@@ -137,6 +137,16 @@ class OpenAPI
         }
 
         return static::$types;
+    }
+
+    /**
+     * Clear internal registry
+     *
+     * @return void
+     */
+    public static function clear()
+    {
+        self::$types = [];
     }
 
     /**

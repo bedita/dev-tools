@@ -54,7 +54,6 @@ class OpenAPITest extends TestCase
      * @covers ::dynamicPaths()
      * @covers ::dynamicSchemas()
      * @covers ::loadConfigurations()
-     * @covers ::availableTypes()
      * @covers ::retrieveSchema()
      */
     public function testGenerate()
@@ -83,5 +82,20 @@ class OpenAPITest extends TestCase
         $data = Yaml::parse($result);
         $expectedKeys = ['openapi', 'info', 'servers', 'paths', 'components'];
         static::assertEquals($expectedKeys, array_keys($data));
+    }
+
+    /**
+     * Test `availableTypes` method
+     *
+     * @return void
+     *
+     * @covers ::availableTypes()
+     * @covers ::clear()
+     */
+    public function testAvailableTypes()
+    {
+        OpenAPI::clear();
+        $result = OpenAPI::availableTypes();
+        static::assertNotEmpty($result);
     }
 }

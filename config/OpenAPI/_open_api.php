@@ -52,7 +52,7 @@ return [
             '/home' => [
                 'get' => [
                     'summary' => 'API Home page',
-                    'description' => 'Information on avilable endpoints and methods',
+                    'description' => 'Information on available endpoints and methods',
                     'tags' => ['home'],
                     'responses' => [
                         '200' => [

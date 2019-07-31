@@ -1,7 +1,7 @@
 <?php
 /**
  * BEdita, API-first content management framework
- * Copyright 2017 ChannelWeb Srl, Chialab Srl
+ * Copyright 2019 ChannelWeb Srl, Chialab Srl
  *
  * This file is part of BEdita: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -12,57 +12,44 @@
  */
 
 use Cake\Cache\Cache;
-use Cake\Core\ClassLoader;
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
 
-// Path constants to a few helpful things.
-if (!defined('DS')) {
-    define('DS', DIRECTORY_SEPARATOR);
-}
-define('ROOT', dirname(__DIR__) . DS);
-require_once ROOT . 'vendor' . DS . 'autoload.php';
-define('CAKE_CORE_INCLUDE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp');
-define('CORE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS);
-define('CAKE', CORE_PATH . 'src' . DS);
-define('TESTS', ROOT . 'tests');
-define('APP', ROOT . 'tests' . DS . 'test_app' . DS);
-define('APP_DIR', 'test_app');
-define('WEBROOT_DIR', 'webroot');
-define('WWW_ROOT', APP . 'webroot' . DS);
+$findRoot = function ($root) {
+    do {
+        $lastRoot = $root;
+        $root = dirname($root);
+        if (is_dir($root . '/vendor/cakephp/cakephp')) {
+            return $root;
+        }
+    } while ($root !== $lastRoot);
+
+    throw new Exception("Cannot find the root of the application, unable to run tests");
+};
+$root = $findRoot(__FILE__);
+unset($findRoot);
+
+chdir($root);
+
+require_once 'vendor/cakephp/cakephp/src/basics.php';
+require_once 'vendor/autoload.php';
+
+define('ROOT', $root . DS . 'tests' . DS . 'test_app' . DS);
+define('APP', ROOT . 'TestApp' . DS);
 define('TMP', sys_get_temp_dir() . DS);
-define('CONFIG', APP . 'config' . DS);
-define('CACHE', TMP);
-define('LOGS', TMP);
-
-$loader = new ClassLoader();
-$loader->register();
-
-$loader->addNamespace('TestApp', APP);
-
-require_once CORE_PATH . 'config' . DS . 'bootstrap.php';
-
-date_default_timezone_set('UTC');
-mb_internal_encoding('UTF-8');
+define('LOGS', TMP . 'logs' . DS);
+define('CACHE', TMP . 'cache' . DS);
+define('CONFIG', ROOT . DS . 'config' . DS);
 
 Configure::write('debug', true);
+
 Configure::write('App', [
-    'namespace' => 'App',
-    'encoding' => 'UTF-8',
-    'base' => false,
-    'baseUrl' => false,
-    'dir' => 'src',
-    'webroot' => 'webroot',
-    'www_root' => APP . 'webroot',
-    'fullBaseUrl' => 'http://api.example.org',
-    'imageBaseUrl' => 'img/',
-    'jsBaseUrl' => 'js/',
-    'cssBaseUrl' => 'css/',
+    'namespace' => 'TestApp',
+    'encoding' => 'utf-8',
     'paths' => [
-        'plugins' => [APP . 'Plugin' . DS],
-        'templates' => [APP . 'Template' . DS],
-    ],
+        'plugins' => [ROOT . 'Plugin' . DS],
+        'templates' => [APP . 'Template' . DS]
+    ]
 ]);
 
 Cache::setConfig([
@@ -93,4 +80,8 @@ ConnectionManager::setConfig('test', [
     'timezone' => 'UTC',
 ]);
 
-Plugin::load('BEdita/DevTools', ['path' => ROOT, 'bootstrap' => true]);
+require ROOT . 'Application.php';
+use TestApp\Application;
+
+$app = new Application(dirname(__DIR__) . '/config');
+$app->bootstrap();

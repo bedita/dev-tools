@@ -21,13 +21,13 @@
         }
     ],
     "require": {
-        "cakephp/cakephp": ">=3.4.4, <4.0",
+        "php": ">=7.1.0",
+        "cakephp/cakephp": "~3.5.3",
         "cakephp/debug_kit": "~3.10"
     },
     "require-dev": {
-        "phpunit/phpunit": "*",
-        "cakephp/cakephp-codesniffer": "~3.0",
-        "phpmd/phpmd": "*"
+        "phpunit/phpunit": "^6",
+        "cakephp/cakephp-codesniffer": "~3.0"
     },
     "autoload": {
         "psr-4": {

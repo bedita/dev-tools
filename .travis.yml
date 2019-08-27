@@ -4,10 +4,8 @@ dist: trusty
 sudo: false
 
 php:
-  - 5.6
-  - 7.0
   - 7.1
-  - hhvm
+  - 7.2
 
 cache:
   directories:
@@ -18,15 +16,7 @@ jobs:
   fast_finish: true
 
   include:
-    - php: 5.6
-      env: "PREFER_LOWEST=1"
-      install:
-        - composer install --prefer-dist --no-interaction
-        - composer update --prefer-dist --prefer-lowest --no-interaction
-        # Ensure PHPUnit is installed from source (i.e.: Git repository) otherwise a wrong version is being detected. :|
-        - rm -rf vendor/phpunit/phpunit vendor/bin/phpunit && COMPOSER_CACHE_DIR=/dev/null composer update --prefer-source --prefer-lowest --no-interaction
-
-    - php: 7.0
+    - php: 7.2
       env: "RUN=phpcs"
       before_script: skip
       script: |
@@ -35,7 +25,7 @@ jobs:
           ./config ./src ./tests
       after_success: ~
 
-    - php: 7.1
+    - php: 7.2
       env: "RUN=phpstan"
       install:
         - composer install --prefer-dist --no-interaction

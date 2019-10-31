@@ -1,0 +1,94 @@
+<?php
+/**
+ * Uncomment following lines to define routing rules
+ */
+//use Cake\Routing\RouteBuilder;
+//use Cake\Routing\Router;
+
+// Router::plugin(
+//    '{{ plugin }}',
+//    [
+//        'path' => '/',
+//        '_namePrefix' => 'api:',
+//    ],
+//    function (RouteBuilder $routes) {
+//
+//        $routes->connect(
+//            '/example',
+//            ['controller' => 'Example', 'action' => 'index'],
+//            ['_name' => 'example:index']
+//        );
+//    }
+//);
+
+<?php
+
+use Cake\Routing\RouteBuilder;
+use Cake\Routing\Router;
+
+Router::plugin(
+    'BiCiclope',
+    [
+        'path' => '/',
+        '_namePrefix' => 'api:',
+    ],
+    function (RouteBuilder $routes) {
+
+        // Activation.
+        $routes->connect(
+            '/activations/available',
+            ['controller' => 'Activations', 'action' => 'available', '_method' => 'POST'],
+            ['_name' => 'activation:available']
+        );
+        $routes->connect(
+            '/activations',
+            ['controller' => 'Activations', 'action' => 'activate', '_method' => 'POST'],
+            ['_name' => 'activation:activate']
+        );
+        $routes->connect(
+            '/activations/deactivate',
+            ['controller' => 'Activations', 'action' => 'deactivate', '_method' => 'POST'],
+            ['_name' => 'activation:deactivate']
+        );
+        $routes->connect(
+            '/activations/transfer',
+            ['controller' => 'Activations', 'action' => 'transfer', '_method' => 'POST'],
+            ['_name' => 'activation:transfer']
+        );
+        $routes->connect(
+            '/activations/transfer/cancel',
+            ['controller' => 'Activations', 'action' => 'cancelTransfer', '_method' => 'POST'],
+            ['_name' => 'activation:transfer:cancel']
+        );
+
+        // Detected.
+        $routes->connect(
+            '/detected',
+            ['controller' => 'Detected', 'action' => 'index', '_method' => 'POST'],
+            ['_name' => 'detected:index']
+        );
+
+        // Detections.
+        $routes->connect(
+            '/detections',
+            ['controller' => 'Detections', 'action' => 'index', '_method' => 'GET'],
+            ['_name' => 'detections:index']
+        );
+        $routes->connect(
+            '/detections/:id',
+            ['controller' => 'Detections', 'action' => 'resource'],
+            ['_name' => 'detections:resource', 'pass' => ['id']]
+        );
+        $routes->connect(
+            '/detections/:related_id/:relationship',
+            ['controller' => 'Detections', 'action' => 'related'],
+            ['_name' => 'detections:related']
+        );
+        $routes->connect(
+            '/detections/:id/relationships/:relationship',
+            ['controller' => 'Detections', 'action' => 'relationships'],
+            ['_name' => 'detections:relationships']
+        );
+    }
+);
+

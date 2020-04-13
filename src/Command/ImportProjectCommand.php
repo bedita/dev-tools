@@ -21,10 +21,11 @@ use Cake\Utility\Hash;
 
 /**
  * Command to prepare `applications` and `users` to import a project in a new environment.
- * Applications api keys and users passwords will generally differ.
+ * Since applications api keys and users passwords will generally differ this command will try to
+ * sync those values, when possible, in order to enable migration.
  *
  * The new project database you want to import must be reachable via an `import` key Datasource configuration.
- * What happens then:
+ * This new project will be modified this way:
  *  - new project `applications` must be present as name on the current project DB => current api keys are saved in the new imported project
  *  - users password hashes are changed (if set) in the new imported project using current users password hashes on records with the same `username`
  *

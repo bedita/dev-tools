@@ -17,19 +17,9 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Http\MiddlewareQueue;
 use Cake\Http\ServerRequest;
+use Cake\Routing\Middleware\AssetMiddleware;
 
 ServerRequest::addDetector('html', ['accept' => ['text/html', 'application/xhtml+xml', 'application/xhtml', 'text/xhtml']]);
-
-if (empty(Configure::read('Plugins.DebugKit')) || !Configure::read('debug')) {
-    /**
-     * Place HTML rendering middleware on top of middleware queue and retturn
-     */
-    EventManager::instance()->on('Server.buildMiddleware', function (Event $event, MiddlewareQueue $middlewareQueue) {
-            $middlewareQueue->prepend(new HtmlMiddleware());
-    });
-
-    return;
-}
 
 /**
  * Configure DebugKit panels.
@@ -39,8 +29,8 @@ $panels = array_merge(Configure::read('DebugKit.panels') ?: [], $panels);
 Configure::write('DebugKit.panels', $panels);
 
 /**
- * Place HTML rendering middleware after `DebugKitMiddleware`.
+ * Place HTML rendering middleware on top of middleware queue and retturn
  */
 EventManager::instance()->on('Server.buildMiddleware', function (Event $event, MiddlewareQueue $middlewareQueue) {
-    $middlewareQueue->insertAfter('DebugKit\Middleware\DebugKitMiddleware', new HtmlMiddleware());
+        $middlewareQueue->prepend([new AssetMiddleware(), new HtmlMiddleware()]);
 });

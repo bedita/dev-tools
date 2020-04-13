@@ -28,6 +28,10 @@ $panels = ['BEdita/DevTools.Configuration'];
 $panels = array_merge(Configure::read('DebugKit.panels') ?: [], $panels);
 Configure::write('DebugKit.panels', $panels);
 
+if (!Configure::read('Accept.html', false)) {
+    return;
+}
+
 /**
  * Place HTML rendering middleware on top of middleware queue and retturn
  */

@@ -13,13 +13,12 @@
 
 namespace BEdita\DevTools\Spec;
 
-use BEdita\Core\Model\Schema\JsonSchema;
+use BEdita\Core\Utility\JsonSchema;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
-use Cake\Utility\Hash;
 use Symfony\Component\Yaml\Yaml;
 
 /**

@@ -57,13 +57,15 @@ class ResourcesMigrationTask extends SimpleMigrationTask
         return 'BEdita/DevTools.resources';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function bake($name)
     {
         // create .php file first, then .yml
         parent::bake($name);
 
-        $yamlTemplate = 'BEdita/DevTools.yaml';
-        $contents = $this->BakeTemplate->generate($yamlTemplate);
+        $contents = $this->BakeTemplate->generate('BEdita/DevTools.yaml');
 
         $filename = $this->getPath() . str_replace('.php', '.yml', $this->migrationFile);
         $this->createFile($filename, $contents);

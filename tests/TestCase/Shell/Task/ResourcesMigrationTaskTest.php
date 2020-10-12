@@ -15,7 +15,6 @@ namespace BEdita\DevTools\Test\TestCase\Shell\Task;
 
 use Bake\Shell\Task\BakeTemplateTask;
 use BEdita\DevTools\Shell\Task\ResourcesMigrationTask;
-use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 
 /**

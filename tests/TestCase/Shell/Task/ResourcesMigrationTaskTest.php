@@ -15,7 +15,6 @@ namespace BEdita\DevTools\Test\TestCase\Shell\Task;
 
 use Bake\Shell\Task\BakeTemplateTask;
 use BEdita\DevTools\Shell\Task\ResourcesMigrationTask;
-use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -25,6 +24,25 @@ use Cake\TestSuite\TestCase;
  */
 class ResourcesMigrationTaskTest extends TestCase
 {
+    /**
+     * Keep trace of created files to cleanup at the end of tests.
+     *
+     * @return array
+     */
+    protected $createdFiles = [];
+
+    /**
+     * {@inheritDoc}
+     */
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        foreach ($this->createdFiles as $file) {
+            unlink($file);
+        }
+    }
+
     /**
      * Test `name`.
      *
@@ -88,9 +106,11 @@ class ResourcesMigrationTaskTest extends TestCase
         // verify file php exists
         $filename = $task->getPath() . $task->migrationFile;
         static::assertFileExists($filename);
+        $this->createdFiles[] = $filename;
 
         // verify file yml exists
         $filename = $task->getPath() . str_replace('.php', '.yml', $task->migrationFile);
         static::assertFileExists($filename);
+        $this->createdFiles[] = $filename;
     }
 }

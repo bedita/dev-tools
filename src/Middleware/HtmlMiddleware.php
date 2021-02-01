@@ -11,7 +11,7 @@
  * See LICENSE.LGPL or <http://gnu.org/licenses/lgpl-3.0.html> for more details.
  */
 
-namespace BEdita\DevTools\Middleware;
+namespace BEdita\DevTools\Middleware; // test
 
 use Cake\Http\ServerRequest;
 use Cake\View\ViewVarsTrait;

@@ -1,6 +1,6 @@
 # BEdita 4 Developer Tools plugin
 
-![Github Actions](https://github.com/bedita/dev-tools/workflows/php/badge.svg)
+[![Github Actions](https://github.com/bedita/dev-tools/workflows/php/badge.svg)](https://github.com/bedita/dev-tools/actions?query=workflow%3Aphp)
 
 Plugin to help with development in [BEdita 4](http://www.bedita.com).
 This plugin adds some useful tabs to CakePHP Debug Kit toolbar, as well as a user-friendly

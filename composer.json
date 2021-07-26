@@ -21,15 +21,15 @@
         }
     ],
     "require": {
-        "php": ">=7.1.0",
-        "cakephp/cakephp": "~3.9.3",
-        "cakephp/debug_kit": "^3.19.0"
+        "php": ">=7.2.0",
+        "cakephp/cakephp": "~3.10.0",
+        "cakephp/debug_kit": "^3.23.0"
     },
     "require-dev": {
-        "cakephp/bake": "^1.11",
-        "cakephp/migrations": "^2.2.0",
+        "cakephp/bake": "^1.12",
+        "cakephp/migrations": "^2.4.2",
         "cakephp/cakephp-codesniffer": "~3.2.1",
-        "phpunit/phpunit": "^6.0"
+        "phpunit/phpunit": "^6.5"
     },
     "autoload": {
         "psr-4": {

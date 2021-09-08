@@ -60,14 +60,58 @@ class ChangeLogCommandTest extends TestCase
      * @return void
      *
      * @covers ::execute()
+     * @covers ::initialize()
      * @covers ::fetchPrs()
      * @covers ::classify()
+     * @covers ::createChangeLog()
      * @covers ::saveChangeLog()
      * @covers ::loglines()
      */
     public function testExecute(): void
     {
-        $response = new Response();
+        $body = json_encode([
+            'total_count' => 1,
+            'items' => [
+                [
+                    'title' => 'A great PR',
+                    'html_url' => 'https://github.com/bedita/bedita/pull/1111',
+                    'number' => 1111,
+                    'labels' => [
+                        [
+                            'name' => 'Topic - Core',
+                        ]
+                    ],
+                    'milestone' => [
+                        'html_url' => 'https:/github.com/bedita/bedita/milestone/25',
+                        'number' => 25,
+                        'title' => '4.4.0',
+                    ],
+                ],
+                [
+                    'title' => 'Wrong milestone',
+                    'milestone' => [
+                        'title' => '1.1.1',
+                    ],
+                ],
+                [
+                    'title' => 'Undefined',
+                    'html_url' => 'https://github.com/bedita/bedita/pull/1111',
+                    'number' => 1111,
+                    'labels' => [
+                        [
+                            'name' => 'Undefined',
+                        ]
+                    ],
+                    'milestone' => [
+                        'html_url' => 'https:/github.com/bedita/bedita/milestone/25',
+                        'number' => 25,
+                        'title' => '4.4.0',
+                    ],
+                ],
+            ],
+        ]);
+        $response = new Response([], $body);
+
         $mock = $this->getMockBuilder(Stream::class)
             ->getMock();
         $mock->expects($this->once())
@@ -83,6 +127,7 @@ class ChangeLogCommandTest extends TestCase
         $this->assertExitSuccess();
         $this->assertOutputContains('Changelog created. Bye.');
 
+        unlink('changelog-4.4.0.md');
         Configure::write('ChangeLog', $current);
     }
 }

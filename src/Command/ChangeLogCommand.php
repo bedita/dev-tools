@@ -120,7 +120,7 @@ class ChangeLogCommand extends Command
      * @param string $from From date.
      * @return array
      */
-    public function fetchPrs(string $from): array
+    protected function fetchPrs(string $from): array
     {
         $client = new Client($this->getConfig('client'));
         $query = [

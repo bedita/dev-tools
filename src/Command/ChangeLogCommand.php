@@ -17,42 +17,51 @@ use Cake\Console\Arguments;
 use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
+use Cake\Core\Configure;
+use Cake\Core\InstanceConfigTrait;
 use Cake\Http\Client;
 use Cake\Utility\Hash;
 
+/**
+ * Command to generate a changelog snippet to prepare a new relase.
+ */
 class ChangeLogCommand extends Command
 {
-    /**
-     * Classification filter on labels
-     *
-     * @var array
-     */
-    protected $filter = [
-        'integration' => [
-            'Topic - Integration',
-            'Topic - Tests'
-        ],
-        'api' => [
-            'Topic - API'
-        ],
-        'core' => [
-            'Topic - Core',
-            'Topic - Database',
-            'Topic - Authentication',
-            'Topic - ORM'
-        ],
-    ];
+    use InstanceConfigTrait;
 
     /**
-     * File sections
+     * Default configuration for command.
      *
      * @var array
      */
-    protected $sections = [
-        'api' => 'API',
-        'core' => 'Core',
-        'integration' => 'Integration',
-        'other' => 'Other',
+    protected $_defaultConfig = [
+        // Classification filter on labels
+        'filter' => [
+            'integration' => [
+                'Topic - Integration',
+                'Topic - Tests'
+            ],
+            'api' => [
+                'Topic - API'
+            ],
+            'core' => [
+                'Topic - Core',
+                'Topic - Database',
+                'Topic - Authentication',
+                'Topic - ORM'
+            ],
+        ],
+        // Changelog sections
+        'sections' => [
+            'api' => 'API',
+            'core' => 'Core',
+            'integration' => 'Integration',
+            'other' => 'Other',
+        ],
+        // Issues search url
+        'url' => 'https://api.github.com/search/issues',
+        // HTTP client configuration
+        'client' => [],
     ];
 
     /**
@@ -70,6 +79,15 @@ class ChangeLogCommand extends Command
             ]);
 
         return $parser;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function initialize(): void
+    {
+        $config = (array)Configure::read('ChangeLog');
+        $this->setConfig($config);
     }
 
     /**
@@ -102,16 +120,16 @@ class ChangeLogCommand extends Command
      * @param string $from From date.
      * @return array
      */
-    protected function fetchPrs(string $from): array
+    public function fetchPrs(string $from): array
     {
-        $url = 'https://api.github.com/search/issues';
-        $client = new Client();
+        $client = new Client($this->getConfig('client'));
         $query = [
             'q' => sprintf('is:pr draft:false repo:bedita/bedita merged:>%s', $from),
             'sort' => '-closed',
             'per_page' => 100,
         ];
         $headers = ['Accept' => 'application/vnd.github.v3+json'];
+        $url = $this->getConfig('url');
         $response = $client->get($url, $query, compact('headers'));
 
         return (array)$response->getJson();
@@ -147,7 +165,7 @@ class ChangeLogCommand extends Command
      */
     protected function classify(array $labels): string
     {
-        foreach ($this->filter as $name => $data) {
+        foreach ((array)$this->getConfig('filter') as $name => $data) {
             if (!empty(array_intersect($labels, $data))) {
                 return $name;
             }
@@ -167,7 +185,7 @@ class ChangeLogCommand extends Command
     {
         $out = sprintf("## Version %s - Cactus\n", $version);
 
-        foreach ($this->sections as $name => $label) {
+        foreach ((array)$this->getConfig('sections') as $name => $label) {
             $out .= sprintf("\n### %s changes (%s)\n\n", $label, $version);
             $out .= $this->loglines((array)Hash::get($changeLog, $name));
         }

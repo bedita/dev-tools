@@ -140,7 +140,7 @@ jobs:
         id: test-coverage
         uses: johanvanhelden/gha-clover-test-coverage-check@v1
         with:
-          percentage: '70'
+          percentage: '85'
           filename: 'clover.xml'
 
       - name: 'Export coverage results'

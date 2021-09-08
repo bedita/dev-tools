@@ -21,7 +21,7 @@ class Application extends BaseApplication
         parent::bootstrap();
 
         // Load DevTools plugin
-        $this->addPlugin('BEdita/DevTools', ['bootstrap' => true, 'path' => dirname(dirname(__DIR__)) . DS]);
+        $this->addPlugin('BEdita/DevTools', ['bootstrap' => true, 'routes' => true, 'path' => dirname(dirname(__DIR__)) . DS]);
     }
 
     /**

@@ -23,7 +23,6 @@ use Cake\TestSuite\TestCase;
  */
 class HtmlMiddlewareTest extends TestCase
 {
-
     /**
      * Test execution with a non-HTML request.
      *

@@ -22,7 +22,6 @@ use Cake\TestSuite\TestCase;
  */
 class ConfigurationPanelTest extends TestCase
 {
-
     /**
      * Debug Kit panel being tested.
      *

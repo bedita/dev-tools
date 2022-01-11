@@ -20,7 +20,6 @@ use DebugKit\DebugPanel;
  */
 class ConfigurationPanel extends DebugPanel
 {
-
     /**
      * Plugin name.
      *

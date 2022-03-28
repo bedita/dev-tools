@@ -8,5 +8,6 @@
 /vendor
 composer.lock
 phinx.yml
+/phpcs.xml
 /phpstan.neon
-phpunit.xml
+/phpunit.xml

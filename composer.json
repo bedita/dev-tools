@@ -29,6 +29,7 @@
         "cakephp/bake": "^1.12",
         "cakephp/migrations": "^2.4.2",
         "cakephp/cakephp-codesniffer": "~3.2.1",
+        "phpstan/phpstan": "^1.5",
         "phpunit/phpunit": "^6.5"
     },
     "autoload": {

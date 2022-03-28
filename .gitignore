@@ -8,4 +8,5 @@
 /vendor
 composer.lock
 phinx.yml
+/phpstan.neon
 phpunit.xml

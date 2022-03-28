@@ -79,6 +79,7 @@ class HtmlMiddlewareTest extends TestCase
      */
     public function testResponse()
     {
+        /** @var string $body */
         $body = json_encode(['meta' => ['gustavo' => 'supporto']]);
 
         $middleware = new HtmlMiddleware();

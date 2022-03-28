@@ -22,6 +22,7 @@
     ],
     "require": {
         "php": ">=7.2.0",
+        "ext-json": "*",
         "cakephp/cakephp": "~3.10.0",
         "cakephp/debug_kit": "^3.23.0"
     },
@@ -50,8 +51,13 @@
             "@test",
             "@cs-check"
         ],
-        "cs-check": "phpcs --colors -p --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./tests",
-        "cs-fix": "phpcbf --colors --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./tests",
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
         "test": "phpunit --colors=always"
+    },
+    "config": {
+        "allow-plugins": {
+            "cakephp/plugin-installer": true
+        }
     }
 }

@@ -25,9 +25,9 @@ class ConfigurationPanelTest extends TestCase
     /**
      * Debug Kit panel being tested.
      *
-     * @var \DebugKit\DebugPanel|null
+     * @var \DebugKit\DebugPanel
      */
-    public $panel = null;
+    public $panel;
 
     /**
      * Set up test case.

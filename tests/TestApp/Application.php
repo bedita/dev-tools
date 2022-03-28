@@ -1,8 +1,9 @@
 <?php
 
-namespace TestApp;
+namespace BEdita\DevTools\Test\TestApp;
 
 use Cake\Http\BaseApplication;
+use Cake\Http\MiddlewareQueue;
 
 /**
  * Application setup class.
@@ -15,19 +16,15 @@ class Application extends BaseApplication
     /**
      * {@inheritDoc}
      */
-    public function bootstrap()
+    public function bootstrap(): void
     {
-        // Call parent to load bootstrap from files.
-        parent::bootstrap();
-
-        // Load DevTools plugin
-        $this->addPlugin('BEdita/DevTools', ['bootstrap' => true, 'path' => dirname(dirname(__DIR__)) . DS]);
+        $this->addPlugin('BEdita/DevTools', ['path' => dirname(dirname(__DIR__)) . DS]);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function middleware($middlewareQueue)
+    public function middleware($middlewareQueue): MiddlewareQueue
     {
         return $middlewareQueue;
     }

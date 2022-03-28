@@ -27,7 +27,7 @@ class ResourcesMigrationTaskTest extends TestCase
     /**
      * Keep trace of created files to cleanup at the end of tests.
      *
-     * @return array
+     * @var string[]
      */
     protected $createdFiles = [];
 
@@ -68,9 +68,10 @@ class ResourcesMigrationTaskTest extends TestCase
     public function testFileName(): void
     {
         $task = new ResourcesMigrationTask();
+        $expected = $task->fileName('MyMigration');
+        sleep(2);
         $actual = $task->fileName('MyMigration');
-        $expected = $task->migrationFile;
-        static::assertEquals($actual, $expected);
+        static::assertEquals($expected, $actual, 'Migration file name is not preserved');
     }
 
     /**
@@ -104,12 +105,12 @@ class ResourcesMigrationTaskTest extends TestCase
         static::assertEquals($actual, $expected);
 
         // verify file php exists
-        $filename = $task->getPath() . $task->migrationFile;
+        $filename = $task->getPath() . $task->fileName('MyMigration');
         static::assertFileExists($filename);
         $this->createdFiles[] = $filename;
 
         // verify file yml exists
-        $filename = $task->getPath() . str_replace('.php', '.yml', $task->migrationFile);
+        $filename = $task->getPath() . str_replace('.php', '.yml', $task->fileName('MyMigration'));
         static::assertFileExists($filename);
         $this->createdFiles[] = $filename;
     }

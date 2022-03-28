@@ -26,9 +26,9 @@ class ResourcesMigrationTask extends SimpleMigrationTask
     /**
      * Main migration file name.
      *
-     * @var string
+     * @var string|null
      */
-    protected $migrationFile = '';
+    protected $migrationFile = null;
 
     /**
      * {@inheritDoc}
@@ -43,10 +43,11 @@ class ResourcesMigrationTask extends SimpleMigrationTask
      */
     public function fileName($name)
     {
-        $name = $this->getMigrationName($name);
-        $this->migrationFile = Util::getCurrentTimestamp() . '_' . Inflector::camelize($name) . '.php';
+        if (isset($this->migrationFile)) {
+            return $this->migrationFile;
+        }
 
-        return $this->migrationFile;
+        return $this->migrationFile = parent::fileName($name);
     }
 
     /**
@@ -67,7 +68,7 @@ class ResourcesMigrationTask extends SimpleMigrationTask
 
         $contents = $this->BakeTemplate->generate('BEdita/DevTools.yaml');
 
-        $filename = $this->getPath() . str_replace('.php', '.yml', $this->migrationFile);
+        $filename = $this->getPath() . str_replace('.php', '.yml', $this->fileName($name));
         $this->createFile($filename, $contents);
 
         return $contents;

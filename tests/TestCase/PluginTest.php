@@ -51,7 +51,6 @@ class PluginTest extends TestCase
      * Test {@see Plugin::bootstrap()} method.
      *
      * @return void
-     *
      * @covers ::bootstrap()
      */
     public function testBootstrap(): void
@@ -104,7 +103,6 @@ class PluginTest extends TestCase
      * @param string[] $expected Expected middleware queue.
      * @param bool|null $acceptHtml Value of `Accept.html` configuration.
      * @return void
-     *
      * @dataProvider middlewareProvider()
      * @covers ::middleware()
      */

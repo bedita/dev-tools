@@ -11,6 +11,7 @@
  * See LICENSE.LGPL or <http://gnu.org/licenses/lgpl-3.0.html> for more details.
  */
 
+use BEdita\DevTools\Test\TestApp\Application;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
@@ -44,7 +45,7 @@ define('CONFIG', ROOT . DS . 'config' . DS);
 Configure::write('debug', true);
 
 Configure::write('App', [
-    'namespace' => 'TestApp',
+    'namespace' => 'BEdita\DevTools\Test\TestApp',
     'encoding' => 'utf-8',
     'paths' => [
         'plugins' => [ROOT . 'Plugin' . DS],
@@ -80,8 +81,6 @@ ConnectionManager::setConfig('test', [
     'timezone' => 'UTC',
 ]);
 
-require ROOT . 'Application.php';
-use TestApp\Application;
-
 $app = new Application(dirname(__DIR__) . '/config');
 $app->bootstrap();
+$app->pluginBootstrap();

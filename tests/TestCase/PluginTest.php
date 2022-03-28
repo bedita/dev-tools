@@ -78,7 +78,7 @@ class PluginTest extends TestCase
     /**
      * Data provider for {@see PluginTest::testMiddleware()} test case.
      *
-     * @return array
+     * @return array[]
      */
     public function middlewareProvider(): array
     {

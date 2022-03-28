@@ -37,7 +37,7 @@ class Plugin extends BasePlugin
 
         // Configure DebugKit panels.
         $panels = ['BEdita/DevTools.Configuration'];
-        $panels = array_merge(Configure::read('DebugKit.panels') ?: [], $panels);
+        $panels = array_merge((array)Configure::read('DebugKit.panels', []), $panels);
         Configure::write('DebugKit.panels', $panels);
     }
 

@@ -61,10 +61,8 @@ class HtmlMiddleware
         $this->set(compact('request', 'response'));
         $view = $this->createView();
 
-        $response = $response
+        return $response
             ->withType('html')
             ->withStringBody($view->render());
-
-        return $response;
     }
 }

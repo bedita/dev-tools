@@ -14,7 +14,7 @@ use Cake\Http\MiddlewareQueue;
 class Application extends BaseApplication
 {
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function bootstrap(): void
     {
@@ -22,7 +22,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function middleware($middlewareQueue): MiddlewareQueue
     {

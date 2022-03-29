@@ -32,9 +32,9 @@ class ResourcesMigrationTaskTest extends TestCase
     protected $createdFiles = [];
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -47,7 +47,6 @@ class ResourcesMigrationTaskTest extends TestCase
      * Test `name`.
      *
      * @return void
-     *
      * @covers ::name()
      */
     public function testName(): void
@@ -62,7 +61,6 @@ class ResourcesMigrationTaskTest extends TestCase
      * Test `fileName`.
      *
      * @return void
-     *
      * @covers ::fileName()
      */
     public function testFileName(): void
@@ -78,7 +76,6 @@ class ResourcesMigrationTaskTest extends TestCase
      * Test `template`.
      *
      * @return void
-     *
      * @covers ::template()
      */
     public function testTemplate(): void
@@ -93,7 +90,6 @@ class ResourcesMigrationTaskTest extends TestCase
      * Test `bake`.
      *
      * @return void
-     *
      * @covers ::bake()
      */
     public function testBake(): void

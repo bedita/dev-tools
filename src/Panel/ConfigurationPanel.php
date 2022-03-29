@@ -32,7 +32,7 @@ class ConfigurationPanel extends DebugPanel
      *
      * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->_data = ['content' => Configure::read()];
     }

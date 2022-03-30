@@ -1,5 +1,5 @@
 parameters:
-  phpVersion: 70200 # PHP 7.2
+  phpVersion: 70400 # PHP 7.4
   bootstrapFiles:
     - tests/bootstrap.php
   paths:

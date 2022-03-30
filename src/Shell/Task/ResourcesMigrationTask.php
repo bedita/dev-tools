@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
  * Copyright 2017-2022 ChannelWeb Srl, Chialab Srl
@@ -12,14 +14,13 @@
  */
 namespace BEdita\DevTools\Shell\Task;
 
-use Cake\Utility\Inflector;
+use Bake\Utility\TemplateRenderer;
 use Migrations\Shell\Task\SimpleMigrationTask;
-use Phinx\Util\Util;
 
 /**
- * Task class for generating resources migrations files.
- *
  * {@inheritDoc}
+ *
+ * Task class for generating resources migrations files.
  */
 class ResourcesMigrationTask extends SimpleMigrationTask
 {
@@ -31,17 +32,17 @@ class ResourcesMigrationTask extends SimpleMigrationTask
     protected $migrationFile = null;
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    public function name()
+    public function name(): string
     {
         return 'resources_migration';
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    public function fileName($name)
+    public function fileName($name): string
     {
         if (isset($this->migrationFile)) {
             return $this->migrationFile;
@@ -51,22 +52,25 @@ class ResourcesMigrationTask extends SimpleMigrationTask
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    public function template()
+    public function template(): string
     {
         return 'BEdita/DevTools.resources';
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    public function bake($name)
+    public function bake($name): string
     {
         // create .php file first, then .yml
         parent::bake($name);
 
-        $contents = $this->BakeTemplate->generate('BEdita/DevTools.yaml');
+        $renderer = new TemplateRenderer($this->theme);
+        $renderer->set('name', $name);
+        $renderer->set($this->templateData());
+        $contents = $renderer->generate('BEdita/DevTools.yaml');
 
         $filename = $this->getPath() . str_replace('.php', '.yml', $this->fileName($name));
         $this->createFile($filename, $contents);

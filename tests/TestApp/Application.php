@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace BEdita\DevTools\Test\TestApp;
 
@@ -14,7 +15,7 @@ use Cake\Http\MiddlewareQueue;
 class Application extends BaseApplication
 {
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function bootstrap(): void
     {
@@ -22,7 +23,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function middleware($middlewareQueue): MiddlewareQueue
     {

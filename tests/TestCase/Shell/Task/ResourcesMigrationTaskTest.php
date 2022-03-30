@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
  * Copyright 2020 ChannelWeb Srl, Chialab Srl
@@ -13,7 +15,7 @@
 
 namespace BEdita\DevTools\Test\TestCase\Shell\Task;
 
-use Bake\Shell\Task\BakeTemplateTask;
+use Bake\Utility\TemplateRenderer;
 use BEdita\DevTools\Shell\Task\ResourcesMigrationTask;
 use Cake\TestSuite\TestCase;
 
@@ -32,9 +34,9 @@ class ResourcesMigrationTaskTest extends TestCase
     protected $createdFiles = [];
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -47,7 +49,6 @@ class ResourcesMigrationTaskTest extends TestCase
      * Test `name`.
      *
      * @return void
-     *
      * @covers ::name()
      */
     public function testName(): void
@@ -62,7 +63,6 @@ class ResourcesMigrationTaskTest extends TestCase
      * Test `fileName`.
      *
      * @return void
-     *
      * @covers ::fileName()
      */
     public function testFileName(): void
@@ -78,7 +78,6 @@ class ResourcesMigrationTaskTest extends TestCase
      * Test `template`.
      *
      * @return void
-     *
      * @covers ::template()
      */
     public function testTemplate(): void
@@ -93,15 +92,18 @@ class ResourcesMigrationTaskTest extends TestCase
      * Test `bake`.
      *
      * @return void
-     *
      * @covers ::bake()
      */
     public function testBake(): void
     {
         $task = new ResourcesMigrationTask();
-        $task->BakeTemplate = new BakeTemplateTask();
         $actual = $task->bake('MyMigration');
-        $expected = $task->BakeTemplate->generate('BEdita/DevTools.yaml');
+
+        $renderer = new TemplateRenderer($task->theme);
+        $renderer->set('name', 'MyMigration');
+        $renderer->set($task->templateData());
+        $expected = $renderer->generate('BEdita/DevTools.yaml');
+
         static::assertEquals($actual, $expected);
 
         // verify file php exists

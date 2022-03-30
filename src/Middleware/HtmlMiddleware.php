@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
  * Copyright 2017-2022 ChannelWeb Srl, Chialab Srl
@@ -44,7 +46,7 @@ class HtmlMiddleware
         // Set correct "Accept" header, and proceed as usual.
         $request = $request->withHeader('Accept', 'application/vnd.api+json');
 
-        /* @var \Cake\Http\Response $response */
+        /** @var \Cake\Http\Response $response */
         $response = $next($request, $response);
 
         if (!in_array($response->getHeaderLine('Content-Type'), ['application/json', 'application/vnd.api+json'])) {

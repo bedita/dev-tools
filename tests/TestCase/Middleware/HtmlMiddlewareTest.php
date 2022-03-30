@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
  * Copyright 2017 ChannelWeb Srl, Chialab Srl
@@ -68,7 +70,7 @@ class HtmlMiddlewareTest extends TestCase
 
         $result = $middleware($request, $response, $next);
 
-        static::assertContains('text/html', $result->getHeaderLine('Content-Type'));
+        static::assertStringContainsString('text/html', $result->getHeaderLine('Content-Type'));
         static::assertSame($body, (string)$result->getBody());
     }
 
@@ -96,8 +98,8 @@ class HtmlMiddlewareTest extends TestCase
 
         $result = $middleware($request, $response, $next);
 
-        static::assertContains('text/html', $result->getHeaderLine('Content-Type'));
-        static::assertContains('<!DOCTYPE html>', (string)$result->getBody());
-        static::assertContains($body, (string)$result->getBody());
+        static::assertStringContainsString('text/html', $result->getHeaderLine('Content-Type'));
+        static::assertStringContainsString('<!DOCTYPE html>', (string)$result->getBody());
+        static::assertStringContainsString($body, (string)$result->getBody());
     }
 }

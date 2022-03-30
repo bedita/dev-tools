@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
  * Copyright 2017-2022 ChannelWeb Srl, Chialab Srl
@@ -32,7 +34,7 @@ class ConfigurationPanel extends DebugPanel
      *
      * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->_data = ['content' => Configure::read()];
     }

@@ -103,7 +103,7 @@ class PluginTest extends TestCase
     /**
      * Test {@see Plugin::middleware()} method.
      *
-     * @param string[] $expected Expected middleware queue.
+     * @param class-string[] $expected Expected middleware queue.
      * @param bool|null $acceptHtml Value of `Accept.html` configuration.
      * @return void
      * @dataProvider middlewareProvider()

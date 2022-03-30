@@ -5,5 +5,5 @@ parameters:
   paths:
     - src
     - tests
-  level: 6
+  level: 9
   checkMissingIterableValueType: false

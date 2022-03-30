@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
  * Copyright 2020 ChannelWeb Srl, Chialab Srl
@@ -13,7 +15,7 @@
 
 namespace BEdita\DevTools\Test\TestCase\Shell\Task;
 
-use Bake\Shell\Task\BakeTemplateTask;
+use Bake\Utility\TemplateRenderer;
 use BEdita\DevTools\Shell\Task\ResourcesMigrationTask;
 use Cake\TestSuite\TestCase;
 
@@ -95,9 +97,13 @@ class ResourcesMigrationTaskTest extends TestCase
     public function testBake(): void
     {
         $task = new ResourcesMigrationTask();
-        $task->BakeTemplate = new BakeTemplateTask();
         $actual = $task->bake('MyMigration');
-        $expected = $task->BakeTemplate->generate('BEdita/DevTools.yaml');
+
+        $renderer = new TemplateRenderer($task->theme);
+        $renderer->set('name', 'MyMigration');
+        $renderer->set($task->templateData());
+        $expected = $renderer->generate('BEdita/DevTools.yaml');
+
         static::assertEquals($actual, $expected);
 
         // verify file php exists

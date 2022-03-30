@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
  * Copyright 2017-2022 ChannelWeb Srl, Chialab Srl
@@ -12,6 +14,7 @@
  */
 namespace BEdita\DevTools\Shell\Task;
 
+use Bake\Utility\TemplateRenderer;
 use Migrations\Shell\Task\SimpleMigrationTask;
 
 /**
@@ -64,7 +67,10 @@ class ResourcesMigrationTask extends SimpleMigrationTask
         // create .php file first, then .yml
         parent::bake($name);
 
-        $contents = $this->BakeTemplate->generate('BEdita/DevTools.yaml');
+        $renderer = new TemplateRenderer($this->theme);
+        $renderer->set('name', $name);
+        $renderer->set($this->templateData());
+        $contents = $renderer->generate('BEdita/DevTools.yaml');
 
         $filename = $this->getPath() . str_replace('.php', '.yml', $this->fileName($name));
         $this->createFile($filename, $contents);

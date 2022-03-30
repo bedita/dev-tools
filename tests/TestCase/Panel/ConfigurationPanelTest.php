@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
  * Copyright 2017 ChannelWeb Srl, Chialab Srl
@@ -34,7 +36,7 @@ class ConfigurationPanelTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -47,7 +49,7 @@ class ConfigurationPanelTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -59,7 +61,7 @@ class ConfigurationPanelTest extends TestCase
      *
      * @return void
      */
-    public function testData()
+    public function testData(): void
     {
         static::assertEquals(['content' => Configure::read()], $this->panel->data());
     }

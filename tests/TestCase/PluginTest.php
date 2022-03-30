@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
  * Copyright 2022 Atlas Srl, Chialab Srl
@@ -18,6 +20,7 @@ use BEdita\DevTools\Plugin;
 use Cake\Core\Configure;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
+use Cake\Http\Middleware\DoublePassDecoratorMiddleware;
 use Cake\Http\MiddlewareQueue;
 use Cake\Http\ServerRequest;
 use Cake\Routing\Middleware\AssetMiddleware;
@@ -56,7 +59,7 @@ class PluginTest extends TestCase
     public function testBootstrap(): void
     {
         $app = new class (CONFIG) extends BaseApplication {
-            public function middleware($middleware)
+            public function middleware($middleware): MiddlewareQueue
             {
                 return $middleware;
             }
@@ -113,10 +116,16 @@ class PluginTest extends TestCase
         Configure::write('Accept.html', $acceptHtml);
 
         $actual = $this->plugin->middleware($queue);
+        $actual->rewind();
 
         static::assertSameSize($expected, $actual);
-        foreach ($expected as $idx => $class) {
-            static::assertInstanceOf($class, $actual->get($idx));
+        foreach ($expected as $class) {
+            if ($actual->current() instanceof DoublePassDecoratorMiddleware) {
+                static::assertInstanceOf($class, $actual->current()->getCallable());
+            } else {
+                static::assertInstanceOf($class, $actual->current());
+            }
+            $actual->next();
         }
     }
 }

@@ -51,9 +51,10 @@
             "@test",
             "@cs-check"
         ],
-        "cs-check": "phpcs",
-        "cs-fix": "phpcbf",
-        "test": "phpunit --colors=always"
+        "analyze": "vendor/bin/phpstan analyse",
+        "cs-check": "vendor/bin/phpcs",
+        "cs-fix": "vendor/bin/phpcbf",
+        "test": "vendor/bin/phpunit --colors=always"
     },
     "config": {
         "allow-plugins": {

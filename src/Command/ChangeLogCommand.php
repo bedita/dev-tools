@@ -104,12 +104,12 @@ class ChangeLogCommand extends Command
         $from = $args->getArgument('from');
         $io->out("Reading closed PRs from from $from");
 
-        $json = $this->fetchPrs($from);
+        $json = $this->fetchPrs((string)$from);
         $items = (array)Hash::get($json, 'items');
         $io->out(sprintf('Loaded %d prs', count($items)));
 
         $changeLog = $this->createChangeLog($items);
-        $this->saveChangeLog($changeLog, $args->getArgument('version'));
+        $this->saveChangeLog($changeLog, (string)$args->getArgument('version'));
 
         $io->out('Changelog created. Bye.');
 
@@ -124,13 +124,14 @@ class ChangeLogCommand extends Command
      */
     protected function fetchPrs(string $from): array
     {
-        $client = new Client($this->getConfig('client'));
+        $client = new Client((array)$this->getConfig('client'));
         $query = [
             'q' => sprintf('is:pr draft:false repo:bedita/bedita merged:>%s', $from),
             'sort' => '-closed',
             'per_page' => 100,
         ];
         $headers = ['Accept' => 'application/vnd.github.v3+json'];
+        /** @var string $url */
         $url = $this->getConfig('url');
         $response = $client->get($url, $query, compact('headers'));
 
@@ -147,12 +148,12 @@ class ChangeLogCommand extends Command
     {
         $res = [];
         foreach ($items as $item) {
-            $milestone = (string)Hash::get($item, 'milestone.title');
-            if (substr($milestone, 0, 1) !== '4') {
+            $milestone = Hash::get($item, 'milestone.title');
+            if (is_string($milestone) && substr($milestone, 0, 1) !== '4') {
                 continue;
             }
             $labels = Hash::extract($item, 'labels.{n}.name');
-            $type = $this->classify($labels);
+            $type = $this->classify((array)$labels);
             $res[$type][] = $item;
         }
 
@@ -168,7 +169,7 @@ class ChangeLogCommand extends Command
     protected function classify(array $labels): string
     {
         foreach ((array)$this->getConfig('filter') as $name => $data) {
-            if (!empty(array_intersect($labels, $data))) {
+            if (!empty(array_intersect($labels, (array)$data))) {
                 return $name;
             }
         }
@@ -188,7 +189,8 @@ class ChangeLogCommand extends Command
         $out = sprintf("## Version %s - Cactus\n", $version);
 
         foreach ((array)$this->getConfig('sections') as $name => $label) {
-            $out .= sprintf("\n### %s changes (%s)\n\n", $label, $version);
+            /** @var string $label */
+            $out .= sprintf("\n### %s changes (%s)\n\n", $label, (string)$version);
             $out .= $this->loglines((array)Hash::get($changeLog, $name));
         }
 
@@ -205,9 +207,9 @@ class ChangeLogCommand extends Command
     {
         $res = '';
         foreach ($items as $item) {
-            $id = Hash::get($item, 'number');
-            $url = Hash::get($item, 'html_url');
-            $title = Hash::get($item, 'title');
+            $id = (string)$item['number'];
+            $url = (string)$item['html_url'];
+            $title = (string)$item['title'];
             $res .= sprintf("* [#%s](%s) %s\n", $id, $url, $title);
         }
 

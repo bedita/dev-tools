@@ -110,7 +110,7 @@ class ChangeLogCommandTest extends TestCase
                 ],
             ],
         ]);
-        $response = new Response([], $body);
+        $response = new Response([], (string)$body);
 
         $mock = $this->getMockBuilder(Stream::class)
             ->getMock();

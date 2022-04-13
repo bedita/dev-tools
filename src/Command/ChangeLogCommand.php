@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
  * Copyright 2021 ChannelWeb Srl, Chialab Srl
@@ -13,8 +15,8 @@
 
 namespace BEdita\DevTools\Command;
 
+use Cake\Command\Command;
 use Cake\Console\Arguments;
-use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
@@ -39,16 +41,16 @@ class ChangeLogCommand extends Command
         'filter' => [
             'integration' => [
                 'Topic - Integration',
-                'Topic - Tests'
+                'Topic - Tests',
             ],
             'api' => [
-                'Topic - API'
+                'Topic - API',
             ],
             'core' => [
                 'Topic - Core',
                 'Topic - Database',
                 'Topic - Authentication',
-                'Topic - ORM'
+                'Topic - ORM',
             ],
         ],
         // Changelog sections
@@ -65,9 +67,9 @@ class ChangeLogCommand extends Command
     ];
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    protected function buildOptionParser(ConsoleOptionParser $parser)
+    protected function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addArgument('from', [
                 'help' => 'Read closed PRs from this date in "YYYY-MM-DD" format',
@@ -82,7 +84,7 @@ class ChangeLogCommand extends Command
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function initialize(): void
     {

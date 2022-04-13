@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
  * Copyright 2021 ChannelWeb Srl, Chialab Srl
@@ -44,7 +46,6 @@ class ChangeLogCommandTest extends TestCase
      * Test buildOptionParser method
      *
      * @return void
-     *
      * @covers ::buildOptionParser()
      */
     public function testBuildOptionParser()
@@ -58,7 +59,6 @@ class ChangeLogCommandTest extends TestCase
      * Test `execute` method
      *
      * @return void
-     *
      * @covers ::execute()
      * @covers ::initialize()
      * @covers ::fetchPrs()
@@ -79,7 +79,7 @@ class ChangeLogCommandTest extends TestCase
                     'labels' => [
                         [
                             'name' => 'Topic - Core',
-                        ]
+                        ],
                     ],
                     'milestone' => [
                         'html_url' => 'https:/github.com/bedita/bedita/milestone/25',
@@ -100,7 +100,7 @@ class ChangeLogCommandTest extends TestCase
                     'labels' => [
                         [
                             'name' => 'Undefined',
-                        ]
+                        ],
                     ],
                     'milestone' => [
                         'html_url' => 'https:/github.com/bedita/bedita/milestone/25',

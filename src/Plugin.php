@@ -35,7 +35,9 @@ class Plugin extends BasePlugin
     {
         parent::bootstrap($app);
 
-        ServerRequest::addDetector('html', ['accept' => ['text/html', 'application/xhtml+xml', 'application/xhtml', 'text/xhtml']]);
+        ServerRequest::addDetector('html', [
+            'accept' => ['text/html', 'application/xhtml+xml', 'application/xhtml', 'text/xhtml'],
+        ]);
 
         // Configure DebugKit panels.
         $panels = ['BEdita/DevTools.Configuration'];

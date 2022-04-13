@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
  * Copyright 2020 ChannelWeb Srl, Chialab Srl
@@ -13,7 +15,7 @@
 
 namespace BEdita\DevTools\Test\TestCase\Shell\Task;
 
-use Bake\Shell\Task\BakeTemplateTask;
+use Bake\Utility\TemplateRenderer;
 use BEdita\DevTools\Shell\Task\ResourcesMigrationTask;
 use Cake\TestSuite\TestCase;
 
@@ -27,14 +29,14 @@ class ResourcesMigrationTaskTest extends TestCase
     /**
      * Keep trace of created files to cleanup at the end of tests.
      *
-     * @return array
+     * @var string[]
      */
     protected $createdFiles = [];
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -47,7 +49,6 @@ class ResourcesMigrationTaskTest extends TestCase
      * Test `name`.
      *
      * @return void
-     *
      * @covers ::name()
      */
     public function testName(): void
@@ -62,22 +63,21 @@ class ResourcesMigrationTaskTest extends TestCase
      * Test `fileName`.
      *
      * @return void
-     *
      * @covers ::fileName()
      */
     public function testFileName(): void
     {
         $task = new ResourcesMigrationTask();
+        $expected = $task->fileName('MyMigration');
+        sleep(2);
         $actual = $task->fileName('MyMigration');
-        $expected = $task->migrationFile;
-        static::assertEquals($actual, $expected);
+        static::assertEquals($expected, $actual, 'Migration file name is not preserved');
     }
 
     /**
      * Test `template`.
      *
      * @return void
-     *
      * @covers ::template()
      */
     public function testTemplate(): void
@@ -92,24 +92,27 @@ class ResourcesMigrationTaskTest extends TestCase
      * Test `bake`.
      *
      * @return void
-     *
      * @covers ::bake()
      */
     public function testBake(): void
     {
         $task = new ResourcesMigrationTask();
-        $task->BakeTemplate = new BakeTemplateTask();
         $actual = $task->bake('MyMigration');
-        $expected = $task->BakeTemplate->generate('BEdita/DevTools.yaml');
+
+        $renderer = new TemplateRenderer($task->theme);
+        $renderer->set('name', 'MyMigration');
+        $renderer->set($task->templateData());
+        $expected = $renderer->generate('BEdita/DevTools.yaml');
+
         static::assertEquals($actual, $expected);
 
         // verify file php exists
-        $filename = $task->getPath() . $task->migrationFile;
+        $filename = $task->getPath() . $task->fileName('MyMigration');
         static::assertFileExists($filename);
         $this->createdFiles[] = $filename;
 
         // verify file yml exists
-        $filename = $task->getPath() . str_replace('.php', '.yml', $task->migrationFile);
+        $filename = $task->getPath() . str_replace('.php', '.yml', $task->fileName('MyMigration'));
         static::assertFileExists($filename);
         $this->createdFiles[] = $filename;
     }

@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
- * Copyright 2017 ChannelWeb Srl, Chialab Srl
+ * Copyright 2017-2022 ChannelWeb Srl, Chialab Srl
  *
  * This file is part of BEdita: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -10,7 +12,6 @@
  *
  * See LICENSE.LGPL or <http://gnu.org/licenses/lgpl-3.0.html> for more details.
  */
-
 namespace BEdita\DevTools\Panel;
 
 use Cake\Core\Configure;
@@ -21,7 +22,6 @@ use DebugKit\DebugPanel;
  */
 class ConfigurationPanel extends DebugPanel
 {
-
     /**
      * Plugin name.
      *
@@ -34,7 +34,7 @@ class ConfigurationPanel extends DebugPanel
      *
      * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->_data = ['content' => Configure::read()];
     }

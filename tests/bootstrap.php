@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
  * Copyright 2019 ChannelWeb Srl, Chialab Srl
@@ -11,6 +13,7 @@
  * See LICENSE.LGPL or <http://gnu.org/licenses/lgpl-3.0.html> for more details.
  */
 
+use BEdita\DevTools\Test\TestApp\Application;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
@@ -24,7 +27,7 @@ $findRoot = function ($root) {
         }
     } while ($root !== $lastRoot);
 
-    throw new Exception("Cannot find the root of the application, unable to run tests");
+    throw new Exception('Cannot find the root of the application, unable to run tests');
 };
 $root = $findRoot(__FILE__);
 unset($findRoot);
@@ -40,17 +43,17 @@ define('TMP', sys_get_temp_dir() . DS);
 define('LOGS', TMP . 'logs' . DS);
 define('CACHE', TMP . 'cache' . DS);
 define('CONFIG', ROOT . DS . 'config' . DS);
-define('CAKE_CORE_INCLUDE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp');
-define('CORE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS);
+define('CAKE_CORE_INCLUDE_PATH', $root . DS . 'vendor' . DS . 'cakephp' . DS . 'cakephp');
+define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
 
 Configure::write('debug', true);
 
 Configure::write('App', [
-    'namespace' => 'TestApp',
+    'namespace' => 'BEdita\DevTools\Test\TestApp',
     'encoding' => 'utf-8',
     'paths' => [
         'plugins' => [ROOT . 'Plugin' . DS],
-        'templates' => [APP . 'Template' . DS],
+        'templates' => [$root . DS . 'templates' . DS],
     ],
 ]);
 
@@ -82,8 +85,6 @@ ConnectionManager::setConfig('test', [
     'timezone' => 'UTC',
 ]);
 
-require ROOT . 'Application.php';
-use TestApp\Application;
-
 $app = new Application(dirname(__DIR__) . '/config');
 $app->bootstrap();
+$app->pluginBootstrap();

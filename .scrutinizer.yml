@@ -11,3 +11,5 @@ filter:
     - 'webroot/*'
   dependency_paths:
     - 'vendors/*'
+    - 'webroot/js/jquery.min.js'
+    - 'webroot/js/jquery.jsonview.js'

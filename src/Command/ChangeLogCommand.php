@@ -121,8 +121,8 @@ class ChangeLogCommand extends Command
     /**
      * Filter items by Milestone: major version of item mileston should match requested version (4 o 5 for instance).
      *
-     * @param array $items
-     * @param string $version
+     * @param array $items Changelog items
+     * @param string $version Release version
      * @return array
      */
     protected function filterItems(array $items, string $version): array

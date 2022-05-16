@@ -65,6 +65,7 @@ class ChangeLogCommandTest extends TestCase
      * @covers ::classify()
      * @covers ::createChangeLog()
      * @covers ::saveChangeLog()
+     * @covers ::filterItems()
      * @covers ::loglines()
      */
     public function testExecute(): void

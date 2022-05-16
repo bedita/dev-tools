@@ -132,7 +132,8 @@ class ChangeLogCommand extends Command
         return array_filter(
             $items,
             function ($item) use ($major) {
-                $milestone = (string)Hash::get($item, 'milestone.title');
+                /** @var string $milestone */
+                $milestone = Hash::get($item, 'milestone.title');
                 $milestone = str_replace('-', '.', $milestone);
                 $v = substr($milestone, 0, (int)strpos($milestone, '.'));
 

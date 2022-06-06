@@ -106,14 +106,40 @@ class ChangeLogCommand extends Command
 
         $json = $this->fetchPrs((string)$from);
         $items = (array)Hash::get($json, 'items');
+        $version = (string)$args->getArgument('version');
+        $items = $this->filterItems($items, $version);
         $io->out(sprintf('Loaded %d prs', count($items)));
 
         $changeLog = $this->createChangeLog($items);
-        $this->saveChangeLog($changeLog, (string)$args->getArgument('version'));
+        $this->saveChangeLog($changeLog, $version);
 
         $io->out('Changelog created. Bye.');
 
         return null;
+    }
+
+    /**
+     * Filter items by Milestone: major version of item mileston should match requested version (4 o 5 for instance).
+     *
+     * @param array $items Changelog items
+     * @param string $version Release version
+     * @return array
+     */
+    protected function filterItems(array $items, string $version): array
+    {
+        $major = substr($version, 0, (int)strpos($version, '.'));
+
+        return array_filter(
+            $items,
+            function ($item) use ($major) {
+                /** @var string $milestone */
+                $milestone = Hash::get($item, 'milestone.title');
+                $milestone = str_replace('-', '.', $milestone);
+                $v = substr($milestone, 0, (int)strpos($milestone, '.'));
+
+                return $v == $major;
+            }
+        );
     }
 
     /**
@@ -148,10 +174,6 @@ class ChangeLogCommand extends Command
     {
         $res = [];
         foreach ($items as $item) {
-            $milestone = Hash::get($item, 'milestone.title');
-            if (is_string($milestone) && substr($milestone, 0, 1) !== '4') {
-                continue;
-            }
             $labels = Hash::extract($item, 'labels.{n}.name');
             $type = $this->classify((array)$labels);
             $res[$type][] = $item;

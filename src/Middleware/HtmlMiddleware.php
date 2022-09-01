@@ -18,36 +18,33 @@ use Cake\Http\ServerRequest;
 use Cake\View\ViewVarsTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * Intercept HTML requests and render an user-friendly view.
  *
  * @since 4.0.0
  */
-class HtmlMiddleware
+class HtmlMiddleware implements MiddlewareInterface
 {
     use ViewVarsTrait;
 
     /**
-     * Render HTML requests using a user-friendly template.
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request Request object.
-     * @param \Psr\Http\Message\ResponseInterface $response Response object.
-     * @param callable $next Next middleware in queue.
-     * @return \Psr\Http\Message\ResponseInterface
+     * @inheritDoc
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if (!($request instanceof ServerRequest) || !$request->is('html')) {
             // Not an HTML request, or unable to detect easily.
-            return $next($request, $response);
+            return $handler->handle($request);
         }
 
         // Set correct "Accept" header, and proceed as usual.
         $request = $request->withHeader('Accept', 'application/vnd.api+json');
 
         /** @var \Cake\Http\Response $response */
-        $response = $next($request, $response);
+        $response = $handler->handle($request);
 
         if (!in_array($response->getHeaderLine('Content-Type'), ['application/json', 'application/vnd.api+json'])) {
             // Not a JSON response.

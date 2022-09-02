@@ -43,6 +43,7 @@ class Plugin extends BasePlugin
         $panels = ['BEdita/DevTools.Configuration'];
         $panels = array_merge((array)Configure::read('DebugKit.panels', []), $panels);
         Configure::write('DebugKit.panels', $panels);
+        Configure::write('DebugKit.ignoreAuthorization', true);
     }
 
     /**
@@ -55,6 +56,8 @@ class Plugin extends BasePlugin
             return $middleware;
         }
 
-        return $middleware->prepend([new AssetMiddleware(), new HtmlMiddleware()]);
+        return $middleware
+            ->prepend(new AssetMiddleware())
+            ->add(new HtmlMiddleware());
     }
 }

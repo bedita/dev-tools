@@ -22,14 +22,63 @@ jobs:
     with:
       php_versions: '["7.4", "8.0", "8.1"]'
 
-  unit-4:
-    uses: bedita/github-workflows/.github/workflows/php-unit.yml@v1
-    with:
-      php_versions: '["7.4","8.0","8.1"]'
-      bedita_version: '4.7.1'
+  unit:
+    name: 'Run unit tests'
+    if: "!contains(github.event.commits[0].message, '[skip ci]') && !contains(github.event.commits[0].message, '[ci skip]')"
+    runs-on: 'ubuntu-latest'
 
-  unit-5:
-    uses: bedita/github-workflows/.github/workflows/php-unit.yml@v1
-    with:
-      php_versions: '["7.4","8.0","8.1"]'
-      bedita_version: '5.0.2'
+    strategy:
+      matrix:
+        php-version: [7.4, 8.0, 8.1]
+
+    steps:
+      - name: 'Checkout current revision'
+        uses: 'actions/checkout@v2'
+
+      - name: 'Composer config GH token if available'
+        run: 'if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi'
+
+      - name: 'Setup PHP'
+        uses: 'shivammathur/setup-php@v2'
+        with:
+          php-version: '${{ matrix.php-version }}'
+          tools: 'composer'
+          extensions: 'mbstring, intl'
+
+      - name: 'Discover Composer cache directory'
+        id: 'cachedir'
+        run: 'echo "::set-output name=path::$(composer global config cache-dir)"'
+
+      - name: 'Share Composer cache across runs'
+        uses: 'actions/cache@v2'
+        with:
+          path: '${{ steps.cachedir.outputs.path }}'
+          key: "composer-${{ matrix.php-version }}-${{ hashFiles('**/composer.json') }}"
+          restore-keys: |
+            composer-${{ matrix.php-version }}-
+            composer-
+      - name: 'Install dependencies with Composer'
+        run: 'composer install --prefer-dist --no-interaction'
+
+      - name: 'Run PHPUnit with coverage'
+        run: 'vendor/bin/phpunit --coverage-clover=clover.xml'
+
+      - name: Check test coverage
+        id: test-coverage
+        uses: johanvanhelden/gha-clover-test-coverage-check@v1
+        with:
+          percentage: '85'
+          filename: 'clover.xml'
+
+      - name: 'Export coverage results'
+        uses: 'codecov/codecov-action@v1'
+        with:
+          file: './clover.xml'
+          env_vars: PHP_VERSION
+
+      - name: 'Archive code coverage results'
+        uses: 'actions/upload-artifact@v2'
+        with:
+          name: 'PHP ${{ matrix.php }}'
+          path: 'clover.xml'
+

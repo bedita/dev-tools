@@ -27,7 +27,7 @@ use Cake\Routing\Middleware\AssetMiddleware;
 class Plugin extends BasePlugin
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function bootstrap(PluginApplicationInterface $app): void
     {
@@ -42,7 +42,7 @@ class Plugin extends BasePlugin
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function middleware($middleware): MiddlewareQueue
     {

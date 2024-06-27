@@ -85,13 +85,13 @@ class ImportProjectCommand extends Command
      * Load applications on a given connection
      * Return an array having `name` as key,
      *
-     * @param Connection $connection The Connection
+     * @param \Cake\Database\Connection $connection The Connection
      * @return array
      */
     protected function loadApplications(Connection $connection): array
     {
         $this->Applications->setConnection($connection);
-        $apps = $this->Applications->find()->select(['name', 'api_key'])->toArray();
+        $apps = $this->Applications->find()->select(['name', 'api_key', 'client_secret'])->toArray();
 
         return Hash::combine($apps, '{n}.name', '{n}');
     }
@@ -114,7 +114,7 @@ class ImportProjectCommand extends Command
     /**
      * Update applications api keys using api keys provided in input array
      *
-     * @param Connection $connection The connection
+     * @param \Cake\Database\Connection $connection The connection
      * @param array $applications Application data
      * @return void
      */
@@ -124,6 +124,7 @@ class ImportProjectCommand extends Command
         foreach ($applications as $name => $application) {
             $entity = $this->Applications->find()->where(['name' => $name])->firstOrFail();
             $entity->api_key = $application->api_key;
+            $entity->client_secret = $application->client_secret;
             $this->Applications->saveOrFail($entity);
         }
     }

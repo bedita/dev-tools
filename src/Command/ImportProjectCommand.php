@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
  * Copyright 2020 ChannelWeb Srl, Chialab Srl
@@ -12,8 +14,8 @@
  */
 namespace BEdita\DevTools\Command;
 
+use Cake\Command\Command;
 use Cake\Console\Arguments;
-use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
 use Cake\Database\Connection;
 use Cake\Datasource\ConnectionManager;

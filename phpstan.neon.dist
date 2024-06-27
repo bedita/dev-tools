@@ -1,0 +1,9 @@
+parameters:
+  phpVersion: 70400 # PHP 7.4
+  bootstrapFiles:
+    - tests/bootstrap.php
+  paths:
+    - src
+    - tests
+  level: 9
+  checkMissingIterableValueType: false

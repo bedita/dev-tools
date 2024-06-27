@@ -11,3 +11,20 @@ filter:
     - 'webroot/*'
   dependency_paths:
     - 'vendors/*'
+    - 'webroot/js/jquery.min.js'
+    - 'webroot/js/jquery.jsonview.js'
+
+build:
+  image: default-jammy
+  environment:
+    node: v18
+  nodes:
+    analysis:
+      environment:
+        php:
+          version: 8.2
+          pecl_extensions:
+            - zip
+      tests:
+        override:
+          - php-scrutinizer-run

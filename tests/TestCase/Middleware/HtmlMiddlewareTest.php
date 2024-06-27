@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BEdita, API-first content management framework
  * Copyright 2017 ChannelWeb Srl, Chialab Srl
@@ -17,12 +19,53 @@ use BEdita\DevTools\Middleware\HtmlMiddleware;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * @covers \BEdita\DevTools\Middleware\HtmlMiddleware
  */
 class HtmlMiddlewareTest extends TestCase
 {
+    /**
+     * Internal request handler test class.
+     *
+     * @param callable|null $callable Request handler callable.
+     * @return \Psr\Http\Server\RequestHandlerInterface
+     */
+    public function requestHandlerClass(?callable $callable = null): RequestHandlerInterface
+    {
+        return new class ($callable) implements RequestHandlerInterface {
+            /**
+             * Test callable
+             *
+             * @var callable
+             */
+            public $callable;
+
+            /**
+             * Test reques
+             *
+             * @var \Psr\Http\Message\ServerRequestInterface
+             */
+            public $request;
+
+            public function __construct(?callable $callable = null)
+            {
+                $this->callable = $callable ?: function ($request) {
+                    return new Response();
+                };
+            }
+
+            public function handle(ServerRequestInterface $request): ResponseInterface
+            {
+                $this->request = $request;
+
+                return ($this->callable)($request);
+            }
+        };
+    }
 
     /**
      * Test execution with a non-HTML request.
@@ -36,12 +79,11 @@ class HtmlMiddlewareTest extends TestCase
         $middleware = new HtmlMiddleware();
 
         $request = (new ServerRequest())->withHeader('Accept', 'application/json');
-        $response = new Response();
-        $next = function (ServerRequest $request, Response $response) use ($body) {
-            return $response->withStringBody($body);
+        $callable = function () use ($body) {
+            return (new Response())->withStringBody($body);
         };
-
-        $result = $middleware($request, $response, $next);
+        $handler = $this->requestHandlerClass($callable);
+        $result = $middleware->process($request, $handler);
 
         static::assertSame($body, (string)$result->getBody());
     }
@@ -58,18 +100,17 @@ class HtmlMiddlewareTest extends TestCase
         $middleware = new HtmlMiddleware();
 
         $request = (new ServerRequest())->withHeader('Accept', 'text/html');
-        $response = new Response();
-        $next = function (ServerRequest $request, Response $response) use ($body) {
+        $callable = function (ServerRequest $request) use ($body) {
             static::assertSame('application/vnd.api+json', $request->getHeaderLine('Accept'));
 
-            return $response
+            return (new Response())
                 ->withType('html')
                 ->withStringBody($body);
         };
+        $handler = $this->requestHandlerClass($callable);
+        $result = $middleware->process($request, $handler);
 
-        $result = $middleware($request, $response, $next);
-
-        static::assertContains('text/html', $result->getHeaderLine('Content-Type'));
+        static::assertStringContainsString('text/html', $result->getHeaderLine('Content-Type'));
         static::assertSame($body, (string)$result->getBody());
     }
 
@@ -80,24 +121,24 @@ class HtmlMiddlewareTest extends TestCase
      */
     public function testResponse()
     {
+        /** @var string $body */
         $body = json_encode(['meta' => ['gustavo' => 'supporto']]);
 
         $middleware = new HtmlMiddleware();
 
         $request = (new ServerRequest())->withHeader('Accept', 'text/html');
-        $response = new Response();
-        $next = function (ServerRequest $request, Response $response) use ($body) {
+        $callable = function (ServerRequest $request) use ($body) {
             static::assertSame('application/vnd.api+json', $request->getHeaderLine('Accept'));
 
-            return $response
+            return (new Response())
                 ->withType('jsonapi')
                 ->withStringBody($body);
         };
+        $handler = $this->requestHandlerClass($callable);
+        $result = $middleware->process($request, $handler);
 
-        $result = $middleware($request, $response, $next);
-
-        static::assertContains('text/html', $result->getHeaderLine('Content-Type'));
-        static::assertContains('<!DOCTYPE html>', (string)$result->getBody());
-        static::assertContains($body, (string)$result->getBody());
+        static::assertStringContainsString('text/html', $result->getHeaderLine('Content-Type'));
+        static::assertStringContainsString('<!DOCTYPE html>', (string)$result->getBody());
+        static::assertStringContainsString($body, (string)$result->getBody());
     }
 }

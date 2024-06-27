@@ -14,6 +14,7 @@ declare(strict_types=1);
  */
 namespace BEdita\DevTools\Command;
 
+use AllowDynamicProperties;
 use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
@@ -36,15 +37,15 @@ use Cake\Utility\Hash;
  * @property \BEdita\Core\Model\Table\ApplicationsTable $Applications
  * @property \BEdita\Core\Model\Table\UsersTable $Users
  */
+#[AllowDynamicProperties]
 class ImportProjectCommand extends Command
 {
-
     /**
-     * Main command execution:
-     *  - applications and users are loaded from current and imported project
-     *  - applications api keys and users passwords are updated to be used in current environment
-     *
      * {@inheritDoc}
+     *
+     * Main command execution:
+     * - applications and users are loaded from current and imported project
+     * - applications api keys and users passwords are updated to be used in current environment
      */
     public function execute(Arguments $args, ConsoleIo $io)
     {
@@ -53,9 +54,15 @@ class ImportProjectCommand extends Command
             $this->abort();
         }
         $importConnection = ConnectionManager::get('import');
+        $defaultConnection = ConnectionManager::get('default');
+        if (!$importConnection instanceof Connection || !$defaultConnection instanceof Connection) {
+            $io->error('Wrong connection type, please review "Datasource" configuration');
+            $this->abort();
+        }
+
         // review `applications`
         $this->loadModel('Applications');
-        $current = $this->loadApplications(ConnectionManager::get('default'));
+        $current = $this->loadApplications($defaultConnection);
         $import = $this->loadApplications($importConnection);
         $missing = array_diff(array_keys($import), array_keys($current));
         if (!empty($missing)) {
@@ -67,13 +74,13 @@ class ImportProjectCommand extends Command
 
         // review `users`
         $this->loadModel('Users');
-        $current = $this->loadUsers(ConnectionManager::get('default'));
+        $current = $this->loadUsers($defaultConnection);
         $import = $this->loadUsers($importConnection);
         $missing = array_diff(array_keys($import), array_keys($current));
         if (!empty($missing)) {
             $io->warning(sprintf('Some users are missing in current project [%d]', count($missing)));
 
-            if ($io->ask('Do you want to proceed?', 'n', ['y', 'n']) === 'n') {
+            if ($io->askChoice('Do you want to proceed?', ['y', 'n'], 'n') === 'n') {
                 $io->error('Aborting.');
                 $this->abort();
             }
@@ -102,7 +109,7 @@ class ImportProjectCommand extends Command
      * Load users on a given connection
      * Return an array having `username` as key,
      *
-     * @param Connection $connection The Connection
+     * @param \Cake\Database\Connection $connection The Connection
      * @return array
      */
     protected function loadUsers(Connection $connection): array
@@ -124,6 +131,7 @@ class ImportProjectCommand extends Command
     {
         $this->Applications->setConnection($connection);
         foreach ($applications as $name => $application) {
+            /** @var \BEdita\Core\Model\Entity\Application $entity */
             $entity = $this->Applications->find()->where(['name' => $name])->firstOrFail();
             $entity->api_key = $application->api_key;
             $entity->client_secret = $application->client_secret;
@@ -134,7 +142,7 @@ class ImportProjectCommand extends Command
     /**
      * Update applications api keys using api keys provided in input array
      *
-     * @param Connection $connection The connection
+     * @param \Cake\Database\Connection $connection The connection
      * @param array $users Users data
      * @return void
      */

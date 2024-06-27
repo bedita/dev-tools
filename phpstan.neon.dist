@@ -6,4 +6,5 @@ parameters:
     - src
     - tests
   level: 9
-  checkMissingIterableValueType: false
+  ignoreErrors:
+    - identifier: missingType.iterableValue

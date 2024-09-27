@@ -29,9 +29,10 @@
     "require-dev": {
         "cakephp/bake": "^2.6",
         "cakephp/migrations": "^3.4.0",
-        "cakephp/cakephp-codesniffer": "~4.5.1",
-        "phpstan/phpstan": "^1.5",
-        "phpunit/phpunit": "^9.0"
+        "cakephp/cakephp-codesniffer": "~4.7.0",
+        "phpstan/phpstan": "^1.8.2",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {

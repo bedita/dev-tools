@@ -29,7 +29,7 @@ class ResourcesMigrationTask extends SimpleMigrationTask
      *
      * @var string|null
      */
-    protected $migrationFile = null;
+    protected ?string $migrationFile = null;
 
     /**
      * @inheritDoc

@@ -36,7 +36,7 @@ class ChangeLogCommand extends Command
      *
      * @var array
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         // Classification filter on labels
         'filter' => [
             'integration' => [
@@ -97,7 +97,7 @@ class ChangeLogCommand extends Command
      *
      * @param \Cake\Console\Arguments $args The command arguments.
      * @param \Cake\Console\ConsoleIo $io The console io
-     * @return null|int The exit code or null for success
+     * @return int|null The exit code or null for success
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {

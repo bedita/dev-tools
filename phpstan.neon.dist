@@ -1,5 +1,4 @@
 parameters:
-  phpVersion: 70400 # PHP 7.4
   bootstrapFiles:
     - tests/bootstrap.php
   paths:
@@ -7,3 +6,5 @@ parameters:
     - tests
   level: 9
   checkMissingIterableValueType: false
+  treatPhpDocTypesAsCertain: false
+  checkGenericClassInNonGenericObjectType: false

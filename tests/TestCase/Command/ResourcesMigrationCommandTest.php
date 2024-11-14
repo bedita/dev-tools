@@ -23,7 +23,7 @@ use Cake\TestSuite\TestCase;
 /**
  * Test resources migration task.
  *
- * @coversDefaultClass \BEdita\DevTools\Console\Command\ResourcesMigrationCommand
+ * @coversDefaultClass \BEdita\DevTools\Command\ResourcesMigrationCommand
  */
 class ResourcesMigrationCommandTest extends TestCase
 {

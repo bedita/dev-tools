@@ -2,7 +2,7 @@
     "name": "bedita/dev-tools",
     "type": "cakephp-plugin",
     "description": "A plugin to give some useful tools to BEdita developers.",
-    "keywords": ["cakephp", "cake3", "plugin", "bedita", "debug_kit", "travis", "scrutinizer"],
+    "keywords": ["cakephp", "cake5", "plugin", "bedita", "debug_kit", "scrutinizer"],
     "license": "LGPL-3.0-or-later",
     "support": {
         "source": "https://github.com/bedita/dev-tools",
@@ -21,17 +21,17 @@
         }
     ],
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.1",
         "ext-json": "*",
-        "cakephp/cakephp": "^4.3.0",
-        "cakephp/debug_kit": "^4.7"
+        "cakephp/cakephp": "^5.1.0",
+        "cakephp/debug_kit": "^5.0.0"
     },
     "require-dev": {
-        "cakephp/bake": "^2.6",
-        "cakephp/migrations": "^3.4.0",
-        "cakephp/cakephp-codesniffer": "~4.5.1",
+        "cakephp/bake": "^3.0.0",
+        "cakephp/migrations": "^4.0.0",
+        "cakephp/cakephp-codesniffer": "^5.0",
         "phpstan/phpstan": "^1.5",
-        "phpunit/phpunit": "^9.0"
+        "phpunit/phpunit": "^10.1.0"
     },
     "autoload": {
         "psr-4": {

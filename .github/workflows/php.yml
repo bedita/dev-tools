@@ -14,14 +14,14 @@ on:
 
 jobs:
   cs:
-    uses: bedita/github-workflows/.github/workflows/php-cs.yml@v1
+    uses: bedita/github-workflows/.github/workflows/php-cs.yml@v2
     with:
-      php_versions: '["7.4", "8.1", "8.2"]'
+      php_versions: '["8.3"]'
 
   stan:
-    uses: bedita/github-workflows/.github/workflows/php-stan.yml@v1
+    uses: bedita/github-workflows/.github/workflows/php-stan.yml@v2
     with:
-      php_versions: '["7.4", "8.1", "8.2"]'
+      php_versions: '["8.3"]'
 
   unit:
     name: 'Run unit tests'
@@ -30,7 +30,7 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [7.4, 8.1, 8.2]
+        php-version: [8.1, 8.2, 8.3]
 
     steps:
       - name: 'Checkout current revision'

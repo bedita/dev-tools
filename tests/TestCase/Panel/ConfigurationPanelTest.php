@@ -21,6 +21,8 @@ use Cake\TestSuite\TestCase;
 
 /**
  * Test configuration panel.
+ *
+ * @coversDefaultClass \BEdita\DevTools\Panel\ConfigurationPanel
  */
 class ConfigurationPanelTest extends TestCase
 {
@@ -60,6 +62,7 @@ class ConfigurationPanelTest extends TestCase
      * Check data being serialized in panel.
      *
      * @return void
+     * @covers ::initialize()
      */
     public function testData(): void
     {

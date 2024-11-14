@@ -10,4 +10,5 @@
 
     <rule ref="CakePHP"/>
 
+    <exclude-pattern>/tests/comparisons/*</exclude-pattern>
 </ruleset>

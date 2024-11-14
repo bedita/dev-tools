@@ -20,7 +20,6 @@ use BEdita\DevTools\Plugin;
 use Cake\Core\Configure;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
-use Cake\Http\Middleware\DoublePassDecoratorMiddleware;
 use Cake\Http\MiddlewareQueue;
 use Cake\Http\ServerRequest;
 use Cake\Routing\Middleware\AssetMiddleware;
@@ -82,7 +81,7 @@ class PluginTest extends TestCase
      *
      * @return array[]
      */
-    public function middlewareProvider(): array
+    public static function middlewareProvider(): array
     {
         return [
             'false' => [
@@ -120,11 +119,7 @@ class PluginTest extends TestCase
 
         static::assertSameSize($expected, $actual);
         foreach ($expected as $class) {
-            if ($actual->current() instanceof DoublePassDecoratorMiddleware) {
-                static::assertInstanceOf($class, $actual->current()->getCallable());
-            } else {
-                static::assertInstanceOf($class, $actual->current());
-            }
+            static::assertInstanceOf($class, $actual->current());
             $actual->next();
         }
     }

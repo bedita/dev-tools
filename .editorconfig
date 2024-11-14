@@ -13,6 +13,12 @@ trim_trailing_whitespace = true
 [*.bat]
 end_of_line = crlf
 
+[templates/bake/layout/*.yml]
+insert_final_newline = false
+
 [*.yml]
 indent_style = space
 indent_size = 2
+
+[*.twig]
+insert_final_newline = false

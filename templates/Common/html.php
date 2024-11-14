@@ -1,6 +1,6 @@
 <?php
-/* @var \Psr\Http\Message\ServerRequestInterface $request */
-/* @var \Psr\Http\Message\ResponseInterface $response */
+/** @var \Psr\Http\Message\ServerRequestInterface $request */
+/** @var \Psr\Http\Message\ResponseInterface $response */
 $this->assign('title', __('BEdita 4 - API Response'));
 
 $this->Html->css('BEdita/DevTools.jquery.jsonview', ['block' => true]);

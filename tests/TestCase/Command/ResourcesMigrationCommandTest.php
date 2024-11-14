@@ -115,16 +115,19 @@ class ResourcesMigrationCommandTest extends TestCase
         $this->assertExitCode(ResourcesMigrationCommand::CODE_SUCCESS);
 
         $file = glob(CONFIG . ResourcesMigrationCommand::DEFAULT_MIGRATION_FOLDER . DS . '*_MyMigration.php');
+        // @phpstan-ignore-next-line
         $phpFile = current($file);
         $file = glob(CONFIG . ResourcesMigrationCommand::DEFAULT_MIGRATION_FOLDER . DS . '*_MyMigration.yml');
+        // @phpstan-ignore-next-line
         $yamlFile = current($file);
 
         $phpResult = file_get_contents($phpFile);
         $yamlResult = file_get_contents($yamlFile);
+
         $this->createdFiles[] = $phpFile;
         $this->createdFiles[] = $yamlFile;
 
-        $this->assertSameAsFile('testMyMigration.php', $phpResult);
-        $this->assertSameAsFile('testMyMigration.yml', $yamlResult);
+        $this->assertSameAsFile('testMyMigration.php', (string)$phpResult);
+        $this->assertSameAsFile('testMyMigration.yml', (string)$yamlResult);
     }
 }

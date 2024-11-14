@@ -5,6 +5,9 @@ parameters:
     - src
     - tests
   level: 9
-  checkMissingIterableValueType: false
   treatPhpDocTypesAsCertain: false
-  checkGenericClassInNonGenericObjectType: false
+  ignoreErrors:
+    - identifier: missingType.iterableValue
+    - identifier: missingType.generics
+  excludePaths:
+    - tests/comparisons/*

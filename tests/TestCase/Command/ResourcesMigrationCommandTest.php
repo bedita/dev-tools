@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 /**
  * BEdita, API-first content management framework
- * Copyright 2020 ChannelWeb Srl, Chialab Srl
+ * Copyright 2024 ChannelWeb Srl, Chialab Srl
  *
  * This file is part of BEdita: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -12,26 +12,40 @@ declare(strict_types=1);
  *
  * See LICENSE.LGPL or <http://gnu.org/licenses/lgpl-3.0.html> for more details.
  */
-
 namespace BEdita\DevTools\Test\TestCase\Shell\Task;
 
-use Bake\Utility\TemplateRenderer;
-use BEdita\DevTools\Shell\Task\ResourcesMigrationTask;
+use BEdita\DevTools\Command\ResourcesMigrationCommand;
+use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
+use Cake\Core\Plugin;
+use Cake\TestSuite\StringCompareTrait;
 use Cake\TestSuite\TestCase;
 
 /**
  * Test resources migration task.
  *
- * @coversDefaultClass \BEdita\DevTools\Shell\Task\ResourcesMigrationTask
+ * @coversDefaultClass \BEdita\DevTools\Console\Command\ResourcesMigrationCommand
  */
-class ResourcesMigrationTaskTest extends TestCase
+class ResourcesMigrationCommandTest extends TestCase
 {
+    use ConsoleIntegrationTestTrait;
+    use StringCompareTrait;
+
     /**
      * Keep trace of created files to cleanup at the end of tests.
      *
      * @var string[]
      */
     protected $createdFiles = [];
+
+    /**
+     * @inheritDoc
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->_compareBasePath = Plugin::path('BEdita/DevTools') . 'tests' . DS . 'comparisons' . DS . 'Migrations' . DS;
+    }
 
     /**
      * @inheritDoc
@@ -53,9 +67,9 @@ class ResourcesMigrationTaskTest extends TestCase
      */
     public function testName(): void
     {
-        $task = new ResourcesMigrationTask();
+        $command = new ResourcesMigrationCommand();
         $expected = 'resources_migration';
-        $actual = $task->name();
+        $actual = $command->name();
         static::assertEquals($actual, $expected);
     }
 
@@ -67,10 +81,10 @@ class ResourcesMigrationTaskTest extends TestCase
      */
     public function testFileName(): void
     {
-        $task = new ResourcesMigrationTask();
-        $expected = $task->fileName('MyMigration');
+        $command = new ResourcesMigrationCommand();
+        $expected = $command->fileName('MyMigration');
         sleep(2);
-        $actual = $task->fileName('MyMigration');
+        $actual = $command->fileName('MyMigration');
         static::assertEquals($expected, $actual, 'Migration file name is not preserved');
     }
 
@@ -82,9 +96,9 @@ class ResourcesMigrationTaskTest extends TestCase
      */
     public function testTemplate(): void
     {
-        $task = new ResourcesMigrationTask();
+        $command = new ResourcesMigrationCommand();
         $expected = 'BEdita/DevTools.resources';
-        $actual = $task->template();
+        $actual = $command->template();
         static::assertEquals($actual, $expected);
     }
 
@@ -96,24 +110,21 @@ class ResourcesMigrationTaskTest extends TestCase
      */
     public function testBake(): void
     {
-        $task = new ResourcesMigrationTask();
-        $actual = $task->bake('MyMigration');
+        $this->exec('bake resources_migration MyMigration');
 
-        $renderer = new TemplateRenderer($task->theme);
-        $renderer->set('name', 'MyMigration');
-        $renderer->set($task->templateData());
-        $expected = $renderer->generate('BEdita/DevTools.yaml');
+        $this->assertExitCode(ResourcesMigrationCommand::CODE_SUCCESS);
 
-        static::assertEquals($actual, $expected);
+        $file = glob(CONFIG . ResourcesMigrationCommand::DEFAULT_MIGRATION_FOLDER . DS . '*_MyMigration.php');
+        $phpFile = current($file);
+        $file = glob(CONFIG . ResourcesMigrationCommand::DEFAULT_MIGRATION_FOLDER . DS . '*_MyMigration.yml');
+        $yamlFile = current($file);
 
-        // verify file php exists
-        $filename = $task->getPath() . $task->fileName('MyMigration');
-        static::assertFileExists($filename);
-        $this->createdFiles[] = $filename;
+        $phpResult = file_get_contents($phpFile);
+        $yamlResult = file_get_contents($yamlFile);
+        $this->createdFiles[] = $phpFile;
+        $this->createdFiles[] = $yamlFile;
 
-        // verify file yml exists
-        $filename = $task->getPath() . str_replace('.php', '.yml', $task->fileName('MyMigration'));
-        static::assertFileExists($filename);
-        $this->createdFiles[] = $filename;
+        $this->assertSameAsFile('testMyMigration.php', $phpResult);
+        $this->assertSameAsFile('testMyMigration.yml', $yamlResult);
     }
 }

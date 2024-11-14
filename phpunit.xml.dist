@@ -1,38 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  ~ BEdita, API-first content management framework
-  ~ Copyright 2017 ChannelWeb Srl, Chialab Srl
-  ~
-  ~ This file is part of BEdita: you can redistribute it and/or modify
-  ~ it under the terms of the GNU Lesser General Public License as published
-  ~ by the Free Software Foundation, either version 3 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ See LICENSE.LGPL or <http://gnu.org/licenses/lgpl-3.0.html> for more details.
-  -->
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" processIsolation="false" stopOnFailure="false" bootstrap="./tests/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">./src/</directory>
-    </include>
-  </coverage>
-  <php>
-    <ini name="memory_limit" value="-1"/>
-    <ini name="apc.enable_cli" value="1"/>
-  </php>
-  <!-- Add any additional test suites you want to run here -->
-  <testsuites>
-    <testsuite name="BEdita 4 Dev Tools Test Suite">
-      <directory>./tests/TestCase</directory>
-    </testsuite>
-  </testsuites>
-  <!-- Setup a listener for fixtures -->
-  <listeners>
-    <listener class="\Cake\TestSuite\Fixture\FixtureInjector" file="./vendor/cakephp/cakephp/src/TestSuite/Fixture/FixtureInjector.php">
-      <arguments>
-        <object class="\Cake\TestSuite\Fixture\FixtureManager"/>
-      </arguments>
-    </listener>
-  </listeners>
-  <!-- Ignore vendor tests in code coverage reports -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    colors="true"
+    processIsolation="false"
+    stopOnFailure="false"
+    bootstrap="./tests/bootstrap.php"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+    cacheDirectory=".phpunit.cache"
+    requireCoverageMetadata="true"
+>
+    <php>
+        <ini name="memory_limit" value="-1"/>
+        <ini name="apc.enable_cli" value="1"/>
+    </php>
+
+    <testsuites>
+        <testsuite name="BEdita 4 Dev Tools Test Suite">
+            <directory>./tests/TestCase</directory>
+        </testsuite>
+    </testsuites>
+
+    <extensions>
+        <bootstrap class="Cake\TestSuite\Fixture\Extension\PHPUnitExtension"/>
+    </extensions>
+
+    <source>
+        <include>
+            <directory suffix=".php">src/</directory>
+        </include>
+    </source>
 </phpunit>

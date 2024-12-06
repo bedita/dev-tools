@@ -1,8 +1,5 @@
 parameters:
-<<<<<<< HEAD
   phpVersion: 80300 # PHP 8.3
-=======
->>>>>>> master
   bootstrapFiles:
     - tests/bootstrap.php
   paths:

@@ -1,5 +1,5 @@
 parameters:
-  phpVersion: 70400 # PHP 7.4
+  phpVersion: 80300 # PHP 8.3
   bootstrapFiles:
     - tests/bootstrap.php
   paths:

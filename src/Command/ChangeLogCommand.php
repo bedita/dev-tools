@@ -88,6 +88,7 @@ class ChangeLogCommand extends Command
      */
     public function initialize(): void
     {
+        /** @var array<string, mixed> $config */
         $config = (array)Configure::read('ChangeLog');
         $this->setConfig($config);
     }
@@ -150,7 +151,9 @@ class ChangeLogCommand extends Command
      */
     protected function fetchPrs(string $from): array
     {
-        $client = new Client((array)$this->getConfig('client'));
+        /** @var array<string, mixed> $config */
+        $config = (array)$this->getConfig('client');
+        $client = new Client($config);
         $query = [
             'q' => sprintf('is:pr draft:false repo:bedita/bedita merged:>%s', $from),
             'sort' => '-closed',

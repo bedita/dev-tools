@@ -7,7 +7,7 @@
 [![image](https://img.shields.io/packagist/v/bedita/dev-tools.svg?label=stable)](https://packagist.org/packages/bedita/dev-tools)
 [![image](https://img.shields.io/github/license/bedita/dev-tools.svg)](https://github.com/bedita/dev-tools/blob/master/LICENSE.LGPL)
 
-Plugin to help with development in [BEdita 4](http://www.bedita.com).
+Plugin to help with development in [BEdita](http://www.bedita.com).
 This plugin adds some useful tabs to CakePHP Debug Kit toolbar, as well as a user-friendly
 HTML rendering of API responses.
 

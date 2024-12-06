@@ -1,6 +1,6 @@
 <?php
 use BEdita\Core\Migration\ResourcesMigration;
 
-class {{ name }} extends ResourcesMigration
+class MyMigration extends ResourcesMigration
 {
 }

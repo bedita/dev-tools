@@ -38,7 +38,6 @@ class ChangeLogCommandTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->useCommandRunner();
         Router::reload();
     }
 
@@ -117,7 +116,7 @@ class ChangeLogCommandTest extends TestCase
             ->getMock();
         $mock->expects($this->once())
             ->method('send')
-            ->will($this->returnValue([$response]));
+            ->willReturn([$response]);
 
         $current = (array)Configure::read('ChangeLog');
         Configure::write('ChangeLog', [

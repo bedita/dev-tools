@@ -1,9 +1,17 @@
 parameters:
+<<<<<<< HEAD
   phpVersion: 80300 # PHP 8.3
+=======
+>>>>>>> master
   bootstrapFiles:
     - tests/bootstrap.php
   paths:
     - src
     - tests
   level: 9
-  checkMissingIterableValueType: false
+  treatPhpDocTypesAsCertain: false
+  ignoreErrors:
+    - identifier: missingType.iterableValue
+    - identifier: missingType.generics
+  excludePaths:
+    - tests/comparisons/*

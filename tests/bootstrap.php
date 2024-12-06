@@ -34,15 +34,15 @@ unset($findRoot);
 
 chdir($root);
 
-require_once 'vendor/cakephp/cakephp/src/basics.php';
-require_once 'vendor/autoload.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
+require dirname(__DIR__) . '/vendor/cakephp/cakephp/src/functions.php';
 
 define('ROOT', $root . DS . 'tests' . DS . 'test_app' . DS);
 define('APP', ROOT . 'TestApp' . DS);
 define('TMP', sys_get_temp_dir() . DS);
 define('LOGS', TMP . 'logs' . DS);
 define('CACHE', TMP . 'cache' . DS);
-define('CONFIG', ROOT . DS . 'config' . DS);
+define('CONFIG', ROOT . 'config' . DS);
 define('CAKE_CORE_INCLUDE_PATH', $root . DS . 'vendor' . DS . 'cakephp' . DS . 'cakephp');
 define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
 

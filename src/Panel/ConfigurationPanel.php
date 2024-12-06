@@ -27,7 +27,7 @@ class ConfigurationPanel extends DebugPanel
      *
      * @var string
      */
-    public $plugin = 'BEdita/DevTools';
+    public string $plugin = 'BEdita/DevTools';
 
     /**
      * Collect configuration data when panel is initialized.

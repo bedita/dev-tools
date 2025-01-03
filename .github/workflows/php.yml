@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: 'Checkout current revision'
-        uses: 'actions/checkout@v3'
+        uses: 'actions/checkout@v4'
 
       - name: 'Composer config GH token if available'
         run: 'if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi'
@@ -51,7 +51,7 @@ jobs:
         run: echo "path=$(composer global config cache-dir)" >> $GITHUB_OUTPUT
 
       - name: 'Share Composer cache across runs'
-        uses: 'actions/cache@v3'
+        uses: 'actions/cache@v4'
         with:
           path: '${{ steps.cachedir.outputs.path }}'
           key: "composer-${{ matrix.php-version }}-${{ hashFiles('**/composer.json') }}"
@@ -62,23 +62,24 @@ jobs:
         run: 'composer install --prefer-dist --no-interaction'
 
       - name: 'Run PHPUnit with coverage'
-        run: 'vendor/bin/phpunit --coverage-clover=clover.xml'
+        run: 'vendor/bin/phpunit --coverage-clover=${{ matrix.php-version }}-${{ strategy.job-index }}-clover.xml'
 
       - name: Check test coverage
         id: test-coverage
         uses: johanvanhelden/gha-clover-test-coverage-check@v1
         with:
           percentage: '85'
-          filename: 'clover.xml'
+          filename: '${{ matrix.php-version }}-${{ strategy.job-index }}-clover.xml'
 
       - name: 'Export coverage results'
         uses: 'codecov/codecov-action@v5'
         with:
-          files: './clover.xml'
+          token: ${{ secrets.CODECOV_TOKEN }} # required
+          files: './${{ matrix.php-version }}-${{ strategy.job-index }}-clover.xml'
           env_vars: PHP_VERSION
 
       - name: 'Archive code coverage results'
-        uses: 'actions/upload-artifact@v3'
+        uses: 'actions/upload-artifact@v4'
         with:
-          name: 'PHP ${{ matrix.php }}'
-          path: 'clover.xml'
+          name: 'PHP-${{ matrix.php-version }}-strategy-job-index-${{ strategy.job-index }}'
+          path: '${{ matrix.php-version }}-${{ strategy.job-index }}-clover.xml'

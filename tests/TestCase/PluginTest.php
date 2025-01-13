@@ -89,7 +89,7 @@ class PluginTest extends TestCase
                 false,
             ],
             'true' => [
-                [AssetMiddleware::class, ErrorHandlerMiddleware::class, HtmlMiddleware::class],
+                [AssetMiddleware::class, HtmlMiddleware::class, ErrorHandlerMiddleware::class],
                 true,
             ],
             'null' => [

@@ -57,7 +57,7 @@ class Plugin extends BasePlugin
         }
 
         return $middleware
-            ->prepend(new AssetMiddleware())
-            ->add(new HtmlMiddleware());
+            ->prepend(new HtmlMiddleware())
+            ->prepend(new AssetMiddleware());
     }
 }

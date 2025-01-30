@@ -13,7 +13,11 @@ updates:
     groups:
       gh-actions:
         patterns: ['actions/*']
-      docker:
-        patterns: ['docker/*']
+      bedita:
+        patterns: ['bedita/*']
       codecov:
         patterns: ['codecov/*']
+      johanvanhelden:
+        patterns: ['johanvanhelden/*']
+      shivammathur:
+        patterns: ['shivammathur/*']

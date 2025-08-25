@@ -139,7 +139,7 @@ class ChangeLogCommand extends Command
                 $v = substr($milestone, 0, (int)strpos($milestone, '.'));
 
                 return $v == $major;
-            }
+            },
         );
     }
 

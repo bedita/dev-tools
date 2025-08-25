@@ -139,12 +139,21 @@ class ResourcesMigrationCommandTest extends TestCase
         $this->createdFiles[] = $phpFile;
         $this->createdFiles[] = $yamlFile;
 
-        $actual = trim(preg_replace('/\s\s+/', ' ', (string)$phpResult));
-        $expected = trim(preg_replace('/\s\s+/', ' ', (string)file_get_contents($this->_compareBasePath . 'testMyMigration.php')));
-        static::assertEquals($actual, $expected);
+        self::assertSameMigration((string)$phpResult, (string)file_get_contents($this->_compareBasePath . 'testMyMigration.php'));
+        self::assertSameMigration((string)$yamlResult, (string)file_get_contents($this->_compareBasePath . 'testMyMigration.yml'));
+    }
 
-        $actual = trim(preg_replace('/\s\s+/', ' ', (string)$yamlResult));
-        $expected = trim(preg_replace('/\s\s+/', ' ', (string)file_get_contents($this->_compareBasePath . 'testMyMigration.yml')));
+    /**
+     * Assert that two migration files are the same.
+     *
+     * @param string $actual The actual migration
+     * @param string $expected The expected migration
+     * @return void
+     */
+    private static function assertSameMigration(string $actual, string $expected): void
+    {
+        $actual = trim((string)preg_replace('/\s\s+/', ' ', $actual));
+        $expected = trim((string)preg_replace('/\s\s+/', ' ', $expected));
         static::assertEquals($actual, $expected);
     }
 }

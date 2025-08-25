@@ -18,6 +18,7 @@ use BEdita\DevTools\Command\ResourcesMigrationCommand;
 use Cake\Console\Arguments;
 use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
 use Cake\Core\Plugin;
+use Cake\Routing\Router;
 use Cake\TestSuite\StringCompareTrait;
 use Cake\TestSuite\TestCase;
 
@@ -44,7 +45,9 @@ class ResourcesMigrationCommandTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
+        Router::reload();
+        $this->loadPlugins(['Bake']);
+        $this->setAppNamespace('BEdita\DevTools\Test\TestApp');
         $this->_compareBasePath = Plugin::path('BEdita/DevTools') . 'tests' . DS . 'comparisons' . DS . 'Migrations' . DS;
     }
 
@@ -118,14 +121,15 @@ class ResourcesMigrationCommandTest extends TestCase
      */
     public function testBake(): void
     {
-        $this->exec('bake resources_migration MyMigration');
+        $this->exec('bake resources_migration MyMigration --force --connection test');
 
         $this->assertExitCode(ResourcesMigrationCommand::CODE_SUCCESS);
+        $basePath = CONFIG . ResourcesMigrationCommand::DEFAULT_MIGRATION_FOLDER . DS;
 
-        $file = glob(CONFIG . ResourcesMigrationCommand::DEFAULT_MIGRATION_FOLDER . DS . '*_MyMigration.php');
+        $file = glob($basePath . '*_MyMigration.php');
         // @phpstan-ignore-next-line
         $phpFile = current($file);
-        $file = glob(CONFIG . ResourcesMigrationCommand::DEFAULT_MIGRATION_FOLDER . DS . '*_MyMigration.yml');
+        $file = glob($basePath . '*_MyMigration.yml');
         // @phpstan-ignore-next-line
         $yamlFile = current($file);
 

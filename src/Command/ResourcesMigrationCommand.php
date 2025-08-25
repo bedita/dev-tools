@@ -34,6 +34,22 @@ class ResourcesMigrationCommand extends BakeSimpleMigrationCommand
         $parser->addArgument('name', [
             'help' => 'Name of the migration',
             'required' => true,
+        ])
+        ->addOption('force', [
+            'short' => 'f',
+            'boolean' => true,
+            'default' => 'false',
+            'help' => 'Force overwriting existing files without prompting.',
+        ])
+        ->addOption('connection', [
+            'short' => 'c',
+            'default' => 'default',
+            'help' => 'The datasource connection to get data from.',
+        ])
+        ->addOption('source', [
+            'short' => 's',
+            'default' => 'Migrations',
+            'help' => 'The migrations folder.',
         ]);
 
         return $parser;

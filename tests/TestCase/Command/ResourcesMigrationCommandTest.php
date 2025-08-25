@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace BEdita\DevTools\Test\TestCase\Shell\Task;
 
 use BEdita\DevTools\Command\ResourcesMigrationCommand;
+use Cake\Console\Arguments;
 use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
 use Cake\Core\Plugin;
 use Cake\TestSuite\StringCompareTrait;
@@ -81,7 +82,14 @@ class ResourcesMigrationCommandTest extends TestCase
      */
     public function testFileName(): void
     {
-        $command = new ResourcesMigrationCommand();
+        $command = new class () extends ResourcesMigrationCommand
+        {
+            public function setArgs(Arguments $args): void
+            {
+                $this->args = $args;
+            }
+        };
+        $command->setArgs(new Arguments(['name' => 'MyMigration'], [], []));
         $expected = $command->fileName('MyMigration');
         sleep(2);
         $actual = $command->fileName('MyMigration');

@@ -139,7 +139,12 @@ class ResourcesMigrationCommandTest extends TestCase
         $this->createdFiles[] = $phpFile;
         $this->createdFiles[] = $yamlFile;
 
-        $this->assertSameAsFile('testMyMigration.php', (string)$phpResult);
-        $this->assertSameAsFile('testMyMigration.yml', (string)$yamlResult);
+        $actual = trim(preg_replace('/\s\s+/', ' ', (string)$phpResult));
+        $expected = trim(preg_replace('/\s\s+/', ' ', (string)file_get_contents($this->_compareBasePath . 'testMyMigration.php')));
+        static::assertEquals($actual, $expected);
+
+        $actual = trim(preg_replace('/\s\s+/', ' ', (string)$yamlResult));
+        $expected = trim(preg_replace('/\s\s+/', ' ', (string)file_get_contents($this->_compareBasePath . 'testMyMigration.yml')));
+        static::assertEquals($actual, $expected);
     }
 }

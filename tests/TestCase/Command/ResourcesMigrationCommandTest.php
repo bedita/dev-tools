@@ -92,7 +92,7 @@ class ResourcesMigrationCommandTest extends TestCase
                 $this->args = $args;
             }
         };
-        $command->setArgs(new Arguments(['name' => 'MyMigration'], [], []));
+        $command->setArgs(new Arguments([['MyMigration']], [], []));
         $expected = $command->fileName('MyMigration');
         sleep(2);
         $actual = $command->fileName('MyMigration');

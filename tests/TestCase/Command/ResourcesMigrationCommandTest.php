@@ -121,7 +121,7 @@ class ResourcesMigrationCommandTest extends TestCase
      */
     public function testBake(): void
     {
-        $this->exec('bake resources_migration MyMigration --force --connection test');
+        $this->exec('bake resources_migration MyMigration');
 
         $this->assertExitCode(ResourcesMigrationCommand::CODE_SUCCESS);
         $basePath = CONFIG . ResourcesMigrationCommand::DEFAULT_MIGRATION_FOLDER . DS;

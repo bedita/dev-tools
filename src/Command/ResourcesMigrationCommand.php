@@ -91,8 +91,7 @@ class ResourcesMigrationCommand extends BakeSimpleMigrationCommand
     }
 
     /**
-     * {@inheritDoc}
-     * {@codeCoverageIgnore}
+     * @inheritDoc
      */
     public function bake(string $name, Arguments $args, ConsoleIo $io): void
     {

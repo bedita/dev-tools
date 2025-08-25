@@ -118,6 +118,7 @@ class ResourcesMigrationCommandTest extends TestCase
      *
      * @return void
      * @covers ::bake()
+     * @covers ::buildOptionParser()
      */
     public function testBake(): void
     {

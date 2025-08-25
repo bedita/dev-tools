@@ -16,6 +16,7 @@ namespace BEdita\DevTools\Command;
 
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
+use Cake\Console\ConsoleOptionParser;
 use Migrations\Command\BakeSimpleMigrationCommand;
 
 /**
@@ -25,6 +26,19 @@ use Migrations\Command\BakeSimpleMigrationCommand;
  */
 class ResourcesMigrationCommand extends BakeSimpleMigrationCommand
 {
+    /**
+     * @inheritDoc
+     */
+    public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
+    {
+        $parser->addArgument('name', [
+            'help' => 'Name of the migration',
+            'required' => true,
+        ]);
+
+        return $parser;
+    }
+
     /**
      * Main migration file name.
      *

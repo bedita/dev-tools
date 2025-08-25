@@ -15,8 +15,10 @@ declare(strict_types=1);
 namespace BEdita\DevTools\Test\TestCase\Shell\Task;
 
 use BEdita\DevTools\Command\ResourcesMigrationCommand;
+use Cake\Console\Arguments;
 use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
 use Cake\Core\Plugin;
+use Cake\Routing\Router;
 use Cake\TestSuite\StringCompareTrait;
 use Cake\TestSuite\TestCase;
 
@@ -43,7 +45,9 @@ class ResourcesMigrationCommandTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
+        Router::reload();
+        $this->loadPlugins(['Bake']);
+        $this->setAppNamespace('BEdita\DevTools\Test\TestApp');
         $this->_compareBasePath = Plugin::path('BEdita/DevTools') . 'tests' . DS . 'comparisons' . DS . 'Migrations' . DS;
     }
 
@@ -81,7 +85,14 @@ class ResourcesMigrationCommandTest extends TestCase
      */
     public function testFileName(): void
     {
-        $command = new ResourcesMigrationCommand();
+        $command = new class () extends ResourcesMigrationCommand
+        {
+            public function setArgs(Arguments $args): void
+            {
+                $this->args = $args;
+            }
+        };
+        $command->setArgs(new Arguments([['MyMigration']], [], []));
         $expected = $command->fileName('MyMigration');
         sleep(2);
         $actual = $command->fileName('MyMigration');
@@ -107,17 +118,19 @@ class ResourcesMigrationCommandTest extends TestCase
      *
      * @return void
      * @covers ::bake()
+     * @covers ::buildOptionParser()
      */
     public function testBake(): void
     {
         $this->exec('bake resources_migration MyMigration');
 
         $this->assertExitCode(ResourcesMigrationCommand::CODE_SUCCESS);
+        $basePath = CONFIG . ResourcesMigrationCommand::DEFAULT_MIGRATION_FOLDER . DS;
 
-        $file = glob(CONFIG . ResourcesMigrationCommand::DEFAULT_MIGRATION_FOLDER . DS . '*_MyMigration.php');
+        $file = glob($basePath . '*_MyMigration.php');
         // @phpstan-ignore-next-line
         $phpFile = current($file);
-        $file = glob(CONFIG . ResourcesMigrationCommand::DEFAULT_MIGRATION_FOLDER . DS . '*_MyMigration.yml');
+        $file = glob($basePath . '*_MyMigration.yml');
         // @phpstan-ignore-next-line
         $yamlFile = current($file);
 
@@ -127,7 +140,21 @@ class ResourcesMigrationCommandTest extends TestCase
         $this->createdFiles[] = $phpFile;
         $this->createdFiles[] = $yamlFile;
 
-        $this->assertSameAsFile('testMyMigration.php', (string)$phpResult);
-        $this->assertSameAsFile('testMyMigration.yml', (string)$yamlResult);
+        self::assertSameMigration((string)$phpResult, (string)file_get_contents($this->_compareBasePath . 'testMyMigration.php'));
+        self::assertSameMigration((string)$yamlResult, (string)file_get_contents($this->_compareBasePath . 'testMyMigration.yml'));
+    }
+
+    /**
+     * Assert that two migration files are the same.
+     *
+     * @param string $actual The actual migration
+     * @param string $expected The expected migration
+     * @return void
+     */
+    private static function assertSameMigration(string $actual, string $expected): void
+    {
+        $actual = trim((string)preg_replace('/\s\s+/', ' ', $actual));
+        $expected = trim((string)preg_replace('/\s\s+/', ' ', $expected));
+        static::assertEquals($actual, $expected);
     }
 }

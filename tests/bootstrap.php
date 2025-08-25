@@ -84,6 +84,7 @@ ConnectionManager::setConfig('test', [
     'url' => getenv('db_dsn'),
     'timezone' => 'UTC',
 ]);
+ConnectionManager::alias('test', 'default');
 
 $app = new Application(dirname(__DIR__) . '/config');
 $app->bootstrap();

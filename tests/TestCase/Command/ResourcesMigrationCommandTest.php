@@ -21,12 +21,18 @@ use Cake\Core\Plugin;
 use Cake\Routing\Router;
 use Cake\TestSuite\StringCompareTrait;
 use Cake\TestSuite\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
 /**
- * Test resources migration task.
- *
- * @coversDefaultClass \BEdita\DevTools\Command\ResourcesMigrationCommand
+ * Test resources migration task
  */
+#[CoversClass(ResourcesMigrationCommand::class)]
+#[CoversMethod(ResourcesMigrationCommand::class, 'bake')]
+#[CoversMethod(ResourcesMigrationCommand::class, 'buildOptionParser')]
+#[CoversMethod(ResourcesMigrationCommand::class, 'fileName')]
+#[CoversMethod(ResourcesMigrationCommand::class, 'name')]
+#[CoversMethod(ResourcesMigrationCommand::class, 'template')]
 class ResourcesMigrationCommandTest extends TestCase
 {
     use ConsoleIntegrationTestTrait;
@@ -48,7 +54,7 @@ class ResourcesMigrationCommandTest extends TestCase
         Router::reload();
         $this->loadPlugins(['Bake']);
         $this->setAppNamespace('BEdita\DevTools\Test\TestApp');
-        $this->_compareBasePath = Plugin::path('BEdita/DevTools') . 'tests' . DS . 'comparisons' . DS . 'Migrations' . DS;
+        $this->_compareBasePath = Plugin::path('BEdita/DevTools') . 'tests' . DS . 'Migrations' . DS;
     }
 
     /**
@@ -67,7 +73,6 @@ class ResourcesMigrationCommandTest extends TestCase
      * Test `name`.
      *
      * @return void
-     * @covers ::name()
      */
     public function testName(): void
     {
@@ -81,7 +86,6 @@ class ResourcesMigrationCommandTest extends TestCase
      * Test `fileName`.
      *
      * @return void
-     * @covers ::fileName()
      */
     public function testFileName(): void
     {
@@ -103,7 +107,6 @@ class ResourcesMigrationCommandTest extends TestCase
      * Test `template`.
      *
      * @return void
-     * @covers ::template()
      */
     public function testTemplate(): void
     {
@@ -117,8 +120,6 @@ class ResourcesMigrationCommandTest extends TestCase
      * Test `bake`.
      *
      * @return void
-     * @covers ::bake()
-     * @covers ::buildOptionParser()
      */
     public function testBake(): void
     {
@@ -140,8 +141,26 @@ class ResourcesMigrationCommandTest extends TestCase
         $this->createdFiles[] = $phpFile;
         $this->createdFiles[] = $yamlFile;
 
-        self::assertSameMigration((string)$phpResult, (string)file_get_contents($this->_compareBasePath . 'testMyMigration.php'));
-        self::assertSameMigration((string)$yamlResult, (string)file_get_contents($this->_compareBasePath . 'testMyMigration.yml'));
+        $expectedPhp = <<<PHP
+<?php
+use BEdita\Core\Migration\ResourcesMigration;
+
+class MyMigration extends ResourcesMigration
+{
+}
+PHP;
+        self::assertSameMigration((string)$phpResult, $expectedPhp);
+        $expectedYaml = <<<YAML
+# MyMigration migration
+---
+
+#create:
+
+#update:
+
+#remove:
+YAML;
+        self::assertSameMigration((string)$yamlResult, $expectedYaml);
     }
 
     /**

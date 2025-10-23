@@ -23,13 +23,17 @@ use Cake\Http\BaseApplication;
 use Cake\Http\MiddlewareQueue;
 use Cake\Http\ServerRequest;
 use Cake\Routing\Middleware\AssetMiddleware;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test {@see \BEdita\DevTools\Plugin}.
- *
- * @coversDefaultClass \BEdita\DevTools\Plugin
  */
+#[CoversClass(Plugin::class)]
+#[CoversMethod(Plugin::class, 'bootstrap')]
+#[CoversMethod(Plugin::class, 'middleware')]
 class PluginTest extends TestCase
 {
     /**
@@ -53,7 +57,6 @@ class PluginTest extends TestCase
      * Test {@see Plugin::bootstrap()} method.
      *
      * @return void
-     * @covers ::bootstrap()
      */
     public function testBootstrap(): void
     {
@@ -105,9 +108,8 @@ class PluginTest extends TestCase
      * @param class-string[] $expected Expected middleware queue.
      * @param bool|null $acceptHtml Value of `Accept.html` configuration.
      * @return void
-     * @dataProvider middlewareProvider()
-     * @covers ::middleware()
      */
+    #[DataProvider('middlewareProvider')]
     public function testMiddleware(array $expected, ?bool $acceptHtml): void
     {
         $queue = new MiddlewareQueue();

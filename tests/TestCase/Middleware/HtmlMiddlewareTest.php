@@ -19,13 +19,15 @@ use BEdita\DevTools\Middleware\HtmlMiddleware;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 /**
- * @covers \BEdita\DevTools\Middleware\HtmlMiddleware
+ * {@see BEdita\DevTools\Middleware\HtmlMiddleware} Test Case
  */
+#[CoversClass(HtmlMiddleware::class)]
 class HtmlMiddlewareTest extends TestCase
 {
     /**

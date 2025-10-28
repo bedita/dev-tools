@@ -4,11 +4,11 @@
     <file>tests</file>
 
     <arg name="colors"/>
+    <arg value="n" />
     <arg value="p" />
+    <arg name="extensions" value="php"/>
 
     <config name="installed_paths" value="../../cakephp/cakephp-codesniffer"/>
 
-    <rule ref="CakePHP"/>
-
-    <exclude-pattern>/tests/comparisons/*</exclude-pattern>
+    <rule ref="CakePHP" />
 </ruleset>

@@ -18,12 +18,14 @@ namespace BEdita\DevTools\Test\TestCase\Panel;
 use BEdita\DevTools\Panel\ConfigurationPanel;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
 /**
- * Test configuration panel.
- *
- * @coversDefaultClass \BEdita\DevTools\Panel\ConfigurationPanel
+ * {@see BEdita\DevTools\Panel\ConfigurationPanel} Test Case
  */
+#[CoversClass(ConfigurationPanel::class)]
+#[CoversMethod(ConfigurationPanel::class, 'initialize')]
 class ConfigurationPanelTest extends TestCase
 {
     /**
@@ -62,7 +64,6 @@ class ConfigurationPanelTest extends TestCase
      * Check data being serialized in panel.
      *
      * @return void
-     * @covers ::initialize()
      */
     public function testData(): void
     {

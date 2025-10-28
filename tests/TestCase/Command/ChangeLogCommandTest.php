@@ -14,18 +14,29 @@ declare(strict_types=1);
  */
 namespace BEdita\Core\Test\TestCase\Command;
 
+use BEdita\DevTools\Command\ChangeLogCommand;
 use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
 use Cake\Core\Configure;
 use Cake\Http\Client\Adapter\Stream;
 use Cake\Http\Client\Response;
 use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
 /**
  * {@see BEdita\DevTools\Command\ChangeLogCommand} Test Case
- *
- * @coversDefaultClass \BEdita\DevTools\Command\ChangeLogCommand
  */
+#[CoversClass(ChangeLogCommand::class)]
+#[CoversMethod(ChangeLogCommand::class, 'buildOptionParser')]
+#[CoversMethod(ChangeLogCommand::class, 'classify')]
+#[CoversMethod(ChangeLogCommand::class, 'createChangeLog')]
+#[CoversMethod(ChangeLogCommand::class, 'execute')]
+#[CoversMethod(ChangeLogCommand::class, 'fetchPrs')]
+#[CoversMethod(ChangeLogCommand::class, 'filterItems')]
+#[CoversMethod(ChangeLogCommand::class, 'initialize')]
+#[CoversMethod(ChangeLogCommand::class, 'loglines')]
+#[CoversMethod(ChangeLogCommand::class, 'saveChangeLog')]
 class ChangeLogCommandTest extends TestCase
 {
     use ConsoleIntegrationTestTrait;
@@ -45,7 +56,6 @@ class ChangeLogCommandTest extends TestCase
      * Test buildOptionParser method
      *
      * @return void
-     * @covers ::buildOptionParser()
      */
     public function testBuildOptionParser()
     {
@@ -58,14 +68,6 @@ class ChangeLogCommandTest extends TestCase
      * Test `execute` method
      *
      * @return void
-     * @covers ::execute()
-     * @covers ::initialize()
-     * @covers ::fetchPrs()
-     * @covers ::classify()
-     * @covers ::createChangeLog()
-     * @covers ::saveChangeLog()
-     * @covers ::filterItems()
-     * @covers ::loglines()
      */
     public function testExecute(): void
     {

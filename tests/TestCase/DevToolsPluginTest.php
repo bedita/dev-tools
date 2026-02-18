@@ -15,8 +15,8 @@ declare(strict_types=1);
 
 namespace BEdita\DevTools\Test\TestCase;
 
-use BEdita\DevTools\Middleware\HtmlMiddleware;
 use BEdita\DevTools\DevToolsPlugin;
+use BEdita\DevTools\Middleware\HtmlMiddleware;
 use Cake\Core\Configure;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;

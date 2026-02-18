@@ -24,9 +24,9 @@ use Cake\Http\ServerRequest;
 use Cake\Routing\Middleware\AssetMiddleware;
 
 /**
- * Plugin class.
+ * DevTools plugin class.
  */
-class Plugin extends BasePlugin
+class DevToolsPlugin extends BasePlugin
 {
     /**
      * @inheritDoc

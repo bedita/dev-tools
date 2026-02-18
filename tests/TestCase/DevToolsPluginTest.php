@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace BEdita\DevTools\Test\TestCase;
 
 use BEdita\DevTools\Middleware\HtmlMiddleware;
-use BEdita\DevTools\Plugin;
+use BEdita\DevTools\DevToolsPlugin;
 use Cake\Core\Configure;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
@@ -29,17 +29,17 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Test {@see \BEdita\DevTools\Plugin}.
+ * Test {@see \BEdita\DevTools\DevToolsPlugin}.
  */
-#[CoversClass(Plugin::class)]
-#[CoversMethod(Plugin::class, 'bootstrap')]
-#[CoversMethod(Plugin::class, 'middleware')]
-class PluginTest extends TestCase
+#[CoversClass(DevToolsPlugin::class)]
+#[CoversMethod(DevToolsPlugin::class, 'bootstrap')]
+#[CoversMethod(DevToolsPlugin::class, 'middleware')]
+class DevToolsPluginTest extends TestCase
 {
     /**
      * Test subject.
      *
-     * @var \BEdita\DevTools\Plugin
+     * @var \BEdita\DevTools\DevToolsPlugin
      */
     protected $plugin;
 
@@ -50,11 +50,11 @@ class PluginTest extends TestCase
     {
         parent::setUp();
 
-        $this->plugin = new Plugin();
+        $this->plugin = new DevToolsPlugin();
     }
 
     /**
-     * Test {@see Plugin::bootstrap()} method.
+     * Test {@see DevToolsPlugin::bootstrap()} method.
      *
      * @return void
      */
@@ -80,7 +80,7 @@ class PluginTest extends TestCase
     }
 
     /**
-     * Data provider for {@see PluginTest::testMiddleware()} test case.
+     * Data provider for {@see DevToolsPluginTest::testMiddleware()} test case.
      *
      * @return array[]
      */
@@ -103,7 +103,7 @@ class PluginTest extends TestCase
     }
 
     /**
-     * Test {@see Plugin::middleware()} method.
+     * Test {@see DevToolsPlugin::middleware()} method.
      *
      * @param class-string[] $expected Expected middleware queue.
      * @param bool|null $acceptHtml Value of `Accept.html` configuration.

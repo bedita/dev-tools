@@ -22,21 +22,11 @@ use Cake\Http\Client\Response;
 use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 
 /**
  * {@see BEdita\DevTools\Command\ChangeLogCommand} Test Case
  */
 #[CoversClass(ChangeLogCommand::class)]
-#[CoversMethod(ChangeLogCommand::class, 'buildOptionParser')]
-#[CoversMethod(ChangeLogCommand::class, 'classify')]
-#[CoversMethod(ChangeLogCommand::class, 'createChangeLog')]
-#[CoversMethod(ChangeLogCommand::class, 'execute')]
-#[CoversMethod(ChangeLogCommand::class, 'fetchPrs')]
-#[CoversMethod(ChangeLogCommand::class, 'filterItems')]
-#[CoversMethod(ChangeLogCommand::class, 'initialize')]
-#[CoversMethod(ChangeLogCommand::class, 'loglines')]
-#[CoversMethod(ChangeLogCommand::class, 'saveChangeLog')]
 class ChangeLogCommandTest extends TestCase
 {
     use ConsoleIntegrationTestTrait;

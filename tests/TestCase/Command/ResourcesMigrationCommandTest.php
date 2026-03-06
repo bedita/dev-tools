@@ -22,17 +22,11 @@ use Cake\Routing\Router;
 use Cake\TestSuite\StringCompareTrait;
 use Cake\TestSuite\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 
 /**
  * Test resources migration task
  */
 #[CoversClass(ResourcesMigrationCommand::class)]
-#[CoversMethod(ResourcesMigrationCommand::class, 'bake')]
-#[CoversMethod(ResourcesMigrationCommand::class, 'buildOptionParser')]
-#[CoversMethod(ResourcesMigrationCommand::class, 'fileName')]
-#[CoversMethod(ResourcesMigrationCommand::class, 'name')]
-#[CoversMethod(ResourcesMigrationCommand::class, 'template')]
 class ResourcesMigrationCommandTest extends TestCase
 {
     use ConsoleIntegrationTestTrait;

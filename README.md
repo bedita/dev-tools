@@ -3,6 +3,7 @@
 [![Github Actions](https://github.com/bedita/dev-tools/workflows/php/badge.svg)](https://github.com/bedita/dev-tools/actions?query=workflow%3Aphp)
 [![codecov](https://codecov.io/gh/bedita/dev-tools/branch/master/graph/badge.svg)](https://codecov.io/gh/bedita/dev-tools)
 [![phpstan](https://img.shields.io/badge/PHPStan-level%209-brightgreen.svg)](https://phpstan.org)
+[![psalm](https://img.shields.io/badge/psalm-level%208-brightgreen.svg)](https://psalm.dev)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bedita/dev-tools/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bedita/dev-tools/?branch=master)
 [![image](https://img.shields.io/packagist/v/bedita/dev-tools.svg?label=stable)](https://packagist.org/packages/bedita/dev-tools)
 [![image](https://img.shields.io/github/license/bedita/dev-tools.svg)](https://github.com/bedita/dev-tools/blob/master/LICENSE.LGPL)

@@ -24,7 +24,6 @@ use Cake\Http\MiddlewareQueue;
 use Cake\Http\ServerRequest;
 use Cake\Routing\Middleware\AssetMiddleware;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -32,8 +31,6 @@ use PHPUnit\Framework\TestCase;
  * Test {@see \BEdita\DevTools\DevToolsPlugin}.
  */
 #[CoversClass(DevToolsPlugin::class)]
-#[CoversMethod(DevToolsPlugin::class, 'bootstrap')]
-#[CoversMethod(DevToolsPlugin::class, 'middleware')]
 class DevToolsPluginTest extends TestCase
 {
     /**
